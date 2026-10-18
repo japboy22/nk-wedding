@@ -1,26 +1,195 @@
 @import "tailwindcss";
 
+/* Canva Self-Hosted Font Families */
+@font-face {
+  font-family: "Campground";
+  src: url("/assets/fonts/campground-regular-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Aileron";
+  src: url("/assets/fonts/aileron-light-300.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Aileron";
+  src: url("/assets/fonts/aileron-regular-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Aileron";
+  src: url("/assets/fonts/aileron-italics-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Aileron";
+  src: url("/assets/fonts/aileron-bold-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Aileron";
+  src: url("/assets/fonts/aileron-bold_italics-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Aileron";
+  src: url("/assets/fonts/aileron-heavy-900.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Courier Prime";
+  src: url("/assets/fonts/courier-prime-regular-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Courier Prime";
+  src: url("/assets/fonts/courier-prime-italics-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Courier Prime";
+  src: url("/assets/fonts/courier-prime-bold-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Courier Prime";
+  src: url("/assets/fonts/courier-prime-bold_italics-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "League Spartan";
+  src: url("/assets/fonts/league-spartan-regular-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Arimo";
+  src: url("/assets/fonts/arimo-regular-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Arimo";
+  src: url("/assets/fonts/arimo-bold-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0d1f2d;
+  --foreground: #2b241d;
+  --font-campground: "Campground", cursive;
+  --font-aileron: "Aileron", sans-serif;
+  --font-courier: "Courier Prime", monospace;
+  --font-spartan: "League Spartan", sans-serif;
+  --font-arimo: "Arimo", sans-serif;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-aileron);
+  --font-mono: var(--font-courier);
+  --font-script: var(--font-campground);
+  --font-display: var(--font-spartan);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
+  background: #0e2231;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-aileron);
+  overflow-x: hidden;
+}
+
+/* Custom utility classes matching the Canva scrapbook aesthetic */
+.font-campground {
+  font-family: var(--font-campground);
+}
+
+.font-aileron {
+  font-family: var(--font-aileron);
+}
+
+.font-courier-prime {
+  font-family: var(--font-courier);
+}
+
+.font-spartan {
+  font-family: var(--font-spartan);
+}
+
+.font-arimo {
+  font-family: var(--font-arimo);
+}
+
+.text-outline-white {
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.85);
+  paint-order: stroke fill;
+}
+
+.sticker-shadow {
+  filter: drop-shadow(0 8px 16px rgba(28, 21, 14, 0.22));
+}
+
+.sticker-shadow-lg {
+  filter: drop-shadow(0 16px 28px rgba(15, 23, 34, 0.32));
+}
+
+.paper-card-shadow {
+  box-shadow:
+    0 14px 34px -6px rgba(24, 18, 12, 0.26),
+    0 4px 10px -2px rgba(24, 18, 12, 0.14);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

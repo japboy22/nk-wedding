@@ -3,12 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3040",
+    "dev:clean": "bash scripts/run-dev.sh",
     "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "start": "next start -p 3040",
+    "lint": "eslint",
+    "tunnel": "bash scripts/tunnel.sh"
   },
   "dependencies": {
+    "@phosphor-icons/react": "^2.1.10",
+    "motion": "^14.3.0",
     "next": "16.4.2",
     "react": "19.3.0",
     "react-dom": "19.3.0"
