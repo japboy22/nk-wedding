@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import {
   NavigationArrow,
   MapPin,
@@ -17,11 +17,6 @@ import {
   Sparkle,
 } from "@phosphor-icons/react";
 import { CANVA_ASSETS, EXTERNAL_LINKS } from "@/lib/assets";
-
-interface TravelAndStaySectionProps {
-  onBackToGamePlan?: () => void;
-  onOpenRsvp?: () => void;
-}
 
 interface VillaItem {
   id: string;
@@ -83,11 +78,8 @@ const VILLAS: VillaItem[] = [
   },
 ];
 
-export default function TravelAndStaySection({
-  onBackToGamePlan,
-  onOpenRsvp,
-}: TravelAndStaySectionProps) {
-  const prefersReducedMotion = useReducedMotion();
+export default function TravelAndStaySection() {
+  const prefersReducedMotion = false;
   const [copiedAddress, setCopiedAddress] = useState(false);
   const [copiedPhone, setCopiedPhone] = useState(false);
   const [activeTransportTab, setActiveTransportTab] = useState<"all" | "car" | "bus">("all");
@@ -121,7 +113,7 @@ export default function TravelAndStaySection({
       aria-label="How to Get to Villa Elisa and Where to Stay in Zambales"
       className="relative min-h-[100dvh] w-full overflow-hidden py-14 sm:py-20 px-4 sm:px-6 lg:px-10 select-none"
     >
-      {/* 1. Deep Green Coastal Texture Backdrop (Page 6 exact background) */}
+      {/* 1. Deep Green Coastal Texture Backdrop (Page 3 exact background) */}
       <div className="absolute inset-0 -z-20 bg-[#1c3323]">
         <img
           src={CANVA_ASSETS.travelAndStay.greenTextureBg}
@@ -167,28 +159,6 @@ export default function TravelAndStaySection({
       />
 
       <div className="relative z-10 mx-auto max-w-5xl flex flex-col items-center">
-        {/* Top Navigation Row: Back Arrow + Page 6 Badge */}
-        <div className="w-full flex items-center justify-between gap-4 mb-6 sm:mb-8">
-          <button
-            type="button"
-            onClick={onBackToGamePlan}
-            className="group inline-flex items-center gap-2 rounded-full bg-black/35 hover:bg-black/55 backdrop-blur-md px-4 py-2 text-white border border-white/20 transition-all cursor-pointer active:scale-95"
-          >
-            <img
-              src={CANVA_ASSETS.page2.backArrowSvg}
-              alt=""
-              className="w-5 h-5 invert opacity-90 group-hover:-translate-x-0.5 transition-transform"
-            />
-            <span className="font-courier font-bold text-xs sm:text-sm tracking-wider uppercase">
-              Back
-            </span>
-          </button>
-
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#f2ffc5]/15 backdrop-blur-md px-3.5 py-1.5 border border-[#f2ffc5]/30 text-[#f2ffc5] text-xs font-courier">
-            <MapPin className="w-3.5 h-3.5 text-[#ff6b57]" weight="fill" />
-            <span>Botolan, Zambales Guide</span>
-          </div>
-        </div>
 
         {/* 2. Page 6 Header: "HOW TO GET" + Red Pin + "TO VILLA ELISA?" */}
         <motion.div
@@ -200,7 +170,7 @@ export default function TravelAndStaySection({
         >
           <div className="relative inline-flex items-center justify-center">
             <h2
-              className="font-courier font-bold text-[#f2ffc5] text-2xl sm:text-4xl md:text-5xl tracking-[0.08em] uppercase drop-shadow-[0_3px_10px_rgba(0,0,0,0.45)]"
+              className="font-courier font-bold text-[#f2ffc5] text-2xl sm:text-4xl md:text-5xl tracking-[0.08em] uppercase text-balance drop-shadow-[0_3px_10px_rgba(0,0,0,0.45)]"
             >
               HOW TO GET
             </h2>
@@ -217,13 +187,13 @@ export default function TravelAndStaySection({
             />
           </div>
 
-          <p className="mt-1">
+          <p className="mt-1 text-balance">
             <a
               href={EXTERNAL_LINKS.villaElisaWebsiteUrl}
               target="_blank"
               rel="noopener noreferrer"
               title="Visit Villa Elisa Botolan Official Website"
-              className="inline-flex items-center gap-2 font-spartan font-bold text-[#f2ffc5] hover:text-[#ffd97d] text-3xl sm:text-5xl md:text-6xl tracking-[0.06em] uppercase drop-shadow-[0_4px_14px_rgba(0,0,0,0.5)] underline decoration-[#f2ffc5]/35 underline-offset-4 transition-colors"
+              className="inline-flex items-center gap-2 font-spartan font-bold text-[#f2ffc5] hover:text-[#ffd97d] text-3xl sm:text-5xl md:text-6xl tracking-[0.06em] uppercase text-balance drop-shadow-[0_4px_14px_rgba(0,0,0,0.5)] underline decoration-[#f2ffc5]/35 underline-offset-4 transition-colors"
             >
               <span>TO VILLA ELISA?</span>
             </a>
@@ -320,7 +290,7 @@ export default function TravelAndStaySection({
             <div className="relative mx-auto max-w-xl rounded-2xl p-1 sm:p-2">
               {/* White Torn Paper Backing Layer */}
               <div
-                className="relative rounded-2xl bg-[#fbf9f3] text-[#1e1e1e] p-6 sm:p-8 md:p-10 shadow-[0_20px_45px_rgba(0,0,0,0.45)] border border-stone-300/80 overflow-hidden"
+                className="relative rounded-2xl bg-[#fbf9f3] text-[#1e1e1e] px-6 pb-6 pt-9 sm:px-8 sm:pb-8 sm:pt-10 md:p-10 shadow-[0_20px_45px_rgba(0,0,0,0.45)] border border-stone-300/80 overflow-hidden"
                 style={{
                   backgroundImage: `url(${CANVA_ASSETS.travelAndStay.blueLinedTornPaper})`,
                   backgroundSize: "cover",
@@ -335,13 +305,13 @@ export default function TravelAndStaySection({
                   src={CANVA_ASSETS.travelAndStay.maskingTapeStrip}
                   alt=""
                   aria-hidden="true"
-                  className="pointer-events-none absolute -top-3 left-1/2 -translate-x-1/2 w-36 sm:w-44 object-contain opacity-90 rotate-[-2deg]"
+                  className="pointer-events-none absolute -top-5 left-1/2 -translate-x-1/2 w-32 sm:w-40 object-contain opacity-90 rotate-[-2deg] z-0"
                 />
 
                 <div className="relative z-10">
                   {/* "Find your way to" + Ransom Note Cutout Letters "p-a-r-a-d-i-s-e" */}
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-stone-300/80">
-                    <span className="font-campground text-2xl sm:text-3xl text-[#1f2e23] -rotate-2">
+                    <span className="font-campground text-2xl sm:text-3xl text-[#1f2e23] -rotate-2 text-balance">
                       Find your way to
                     </span>
 
@@ -368,8 +338,8 @@ export default function TravelAndStaySection({
                     </div>
                   </div>
 
-                  {/* Intro Paragraph from Canva Page 6 */}
-                  <p className="mt-4 font-courier text-xs sm:text-sm leading-relaxed text-stone-800">
+                  {/* Intro Paragraph from Canva Page 3 */}
+                  <p className="mt-4 font-courier text-xs sm:text-sm leading-relaxed text-stone-800 text-pretty">
                     <a
                       href={EXTERNAL_LINKS.villaElisaWebsiteUrl}
                       target="_blank"
@@ -379,9 +349,7 @@ export default function TravelAndStaySection({
                       Villa Elisa Botolan
                     </a>{" "}
                     sits along the pristine shores of Botolan,
-                    Zambales - a roughly 3 to 4 hour drive from Manila. The journey
-                    north along the SCTEX is part of the experience, with Pinatubo
-                    views welcoming you as you approach.
+                    Zambales - a roughly 3 to 4 hour drive from Manila.
                   </p>
 
                   {/* Interactive Filter Tabs for Car / Bus */}
@@ -416,7 +384,7 @@ export default function TravelAndStaySection({
                           <Car className="w-4 h-4 text-[#d95338]" weight="fill" />
                           <span>BY CAR</span>
                         </div>
-                        <p className="mt-1 text-stone-800 leading-relaxed">
+                        <p className="mt-1 text-stone-800 leading-relaxed text-pretty">
                           Via NLEX-SCTEX-Subic Exit / Approx. 3-4 hrs from Manila -
                           Exit at Olongapo-Gapan Road
                         </p>
@@ -429,7 +397,7 @@ export default function TravelAndStaySection({
                           <Bus className="w-4 h-4 text-[#2b6cb0]" weight="fill" />
                           <span>BY BUS</span>
                         </div>
-                        <p className="mt-1 text-stone-800 leading-relaxed">
+                        <p className="mt-1 text-stone-800 leading-relaxed text-pretty">
                           Victory Liner from Pasay or Cubao / Alight at San Antonio /
                           Botolan terminal - Short tricycle ride to resort
                         </p>
@@ -446,7 +414,7 @@ export default function TravelAndStaySection({
                           href={EXTERNAL_LINKS.villaElisaWebsiteUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="mt-0.5 inline-flex items-center gap-1.5 text-stone-800 hover:text-[#d95338] font-bold underline decoration-stone-400 underline-offset-2 transition-colors"
+                          className="mt-0.5 inline-flex items-center gap-1.5 text-stone-800 hover:text-[#d95338] font-bold underline decoration-stone-400 underline-offset-2 transition-colors text-pretty"
                         >
                           <span>{venueAddress}</span>
                           <ArrowSquareOut className="w-3.5 h-3.5 shrink-0" />
@@ -483,7 +451,7 @@ export default function TravelAndStaySection({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="relative w-full max-w-5xl rounded-3xl p-6 sm:p-9 md:p-12 shadow-[0_24px_60px_rgba(0,0,0,0.55)] border-2 border-[#d5be97]/50 overflow-visible"
+          className="relative w-full max-w-5xl rounded-3xl px-6 pb-6 pt-11 sm:px-9 sm:pb-9 sm:pt-12 md:p-12 shadow-[0_24px_60px_rgba(0,0,0,0.55)] border-2 border-[#d5be97]/50 overflow-visible"
           style={{
             backgroundImage: `url(${CANVA_ASSETS.page2.kraftPaperCalendarBg})`,
             backgroundSize: "cover",
@@ -495,18 +463,18 @@ export default function TravelAndStaySection({
             absolute inset-0 rounded-3xl bg-gradient-to-b from-black/15 via-transparent to-black/25 pointer-events-none
           " />
 
-          {/* Masking Tape Strips at Top Corners */}
+          {/* Masking Tape Strips at Outer Top Corners (positioned above the title area and behind z-30 text) */}
           <img
             src={CANVA_ASSETS.travelAndStay.maskingTapeStrip}
             alt=""
             aria-hidden="true"
-            className="pointer-events-none absolute -top-4 left-8 w-32 sm:w-40 object-contain rotate-[-8deg] drop-shadow-md z-20"
+            className="pointer-events-none absolute -top-6 left-3 sm:left-8 w-24 sm:w-32 object-contain rotate-[-10deg] drop-shadow-md z-10"
           />
           <img
             src={CANVA_ASSETS.travelAndStay.maskingTapeStrip}
             alt=""
             aria-hidden="true"
-            className="pointer-events-none absolute -top-4 right-8 w-32 sm:w-40 object-contain rotate-[7deg] drop-shadow-md z-20"
+            className="pointer-events-none absolute -top-6 right-3 sm:right-8 w-24 sm:w-32 object-contain rotate-[9deg] drop-shadow-md z-10"
           />
 
           {/* Starfish Cutout Top-Left & Pink Lily Bottom-Right */}
@@ -517,7 +485,7 @@ export default function TravelAndStaySection({
               prefersReducedMotion ? {} : { rotate: [-6, 4, -6], scale: [1, 1.04, 1] }
             }
             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-            className="pointer-events-none absolute -top-9 -left-5 sm:-left-8 w-20 sm:w-28 object-contain drop-shadow-xl z-20"
+            className="pointer-events-none absolute -top-10 -left-6 sm:-left-9 w-16 sm:w-24 object-contain drop-shadow-xl z-10"
           />
           <img
             src={CANVA_ASSETS.page2.pinkLilySticker}
@@ -526,12 +494,12 @@ export default function TravelAndStaySection({
             className="pointer-events-none absolute -bottom-7 -right-5 sm:-right-7 w-20 sm:w-28 object-contain drop-shadow-xl z-20"
           />
 
-          {/* Section Title inside Kraft Board */}
-          <div className="relative z-10 text-center mb-8">
-            <h3 className="font-spartan font-bold text-[#f2ffc5] text-2xl sm:text-4xl md:text-5xl tracking-[0.06em] uppercase drop-shadow-[0_3px_10px_rgba(0,0,0,0.65)]">
+          {/* Section Title inside Kraft Board (z-30 and clear of top corner tapes) */}
+          <div className="relative z-30 text-center mt-2 sm:mt-1 mb-8 px-2 sm:px-6">
+            <h3 className="font-spartan font-bold text-[#f2ffc5] text-2xl sm:text-4xl md:text-5xl tracking-[0.06em] uppercase text-balance drop-shadow-[0_3px_10px_rgba(0,0,0,0.65)]">
               WHERE TO STAY IN ZAMBALES?
             </h3>
-            <p className="mt-1.5 font-courier text-xs sm:text-sm text-[#fff9e6] drop-shadow-[0_1px_4px_rgba(0,0,0,0.7)]">
+            <p className="mt-1.5 font-courier text-xs sm:text-sm text-[#fff9e6] text-pretty drop-shadow-[0_1px_4px_rgba(0,0,0,0.7)]">
               Tap any badge or villa polaroid below to open its official booking link
             </p>
           </div>
@@ -580,7 +548,7 @@ export default function TravelAndStaySection({
                     alt={badge.name}
                     className="w-full h-auto object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.45)]"
                   />
-                  <span className="mt-1 flex items-center justify-center gap-1 font-courier text-[11px] font-bold text-[#f2ffc5] opacity-90 group-hover:underline">
+                  <span className="mt-1 flex items-center justify-center gap-1 font-courier text-[11px] font-bold text-[#f2ffc5] opacity-90 group-hover:underline text-balance">
                     <span>{badge.name}</span>
                     <ArrowSquareOut className="w-3.5 h-3.5" />
                   </span>
@@ -614,7 +582,7 @@ export default function TravelAndStaySection({
                       className="w-full h-auto object-contain drop-shadow-[0_14px_28px_rgba(0,0,0,0.5)] rounded-lg"
                     />
                     <div className="mt-2.5 rounded-xl bg-black/65 group-hover:bg-black/80 backdrop-blur-md px-3 py-2 border border-white/20 text-left transition-colors">
-                      <p className="font-spartan font-bold text-xs sm:text-sm text-[#f2ffc5] leading-snug group-hover:underline">
+                      <p className="font-spartan font-bold text-xs sm:text-sm text-[#f2ffc5] leading-snug group-hover:underline text-balance">
                         {villa.name}
                       </p>
                       <div className="mt-1 flex items-center justify-between text-[11px] font-courier text-stone-200">
@@ -631,38 +599,43 @@ export default function TravelAndStaySection({
           </div>
         </motion.div>
 
-        {/* 5. Footer Connect & Coordinator Bar (Exact Page 6 Bottom Layout) */}
+        {/* 5. Footer Connect & Coordinator Bar (Balanced & Symmetrical Layout) */}
         <motion.div
           initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.15 }}
-          className="mt-12 sm:mt-16 w-full max-w-4xl rounded-3xl bg-black/40 backdrop-blur-md border border-[#f2ffc5]/25 p-6 sm:p-8"
+          className="mt-12 sm:mt-16 w-full max-w-4xl rounded-3xl bg-black/45 backdrop-blur-md border border-[#f2ffc5]/25 p-6 sm:p-8 shadow-[0_18px_40px_rgba(0,0,0,0.4)]"
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            {/* Left: Click the Icons to Connect with the Couple */}
-            <div className="flex flex-col items-center md:items-start text-center md:text-left">
-              <p className="font-spartan font-bold text-[#f2ffc5] text-sm sm:text-base tracking-[0.08em] uppercase">
-                CLICK THE ICONS TO CONNECT WITH THE COUPLE!
-              </p>
-              <p className="mt-1 font-courier text-xs text-stone-300">
-                Have questions or want to share your excitement? Message Kevin & Nica or RSVP directly:
-              </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-white/15">
+            {/* Left Column: Click the Icons to Connect with the Couple */}
+            <div className="flex flex-col items-center justify-between text-center pb-6 md:pb-0 md:pr-8">
+              <div className="flex flex-col items-center">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#f2ffc5]/15 px-3.5 py-1 font-spartan font-bold text-[11px] text-[#f2ffc5] tracking-[0.1em] uppercase border border-[#f2ffc5]/30">
+                  STAY CONNECTED
+                </span>
+                <h4 className="mt-3 font-spartan font-bold text-[#f2ffc5] text-base sm:text-lg tracking-[0.06em] uppercase leading-snug max-w-[26ch] text-balance">
+                  CLICK THE ICONS TO CONNECT WITH THE COUPLE!
+                </h4>
+                <p className="mt-1 font-courier text-xs text-stone-300 max-w-[32ch] text-pretty">
+                  Have questions or want to share your excitement? Reach out to Kevin &amp; Nica:
+                </p>
+              </div>
 
-              <div className="mt-4 flex flex-wrap items-center justify-center md:justify-start gap-4">
+              <div className="mt-5 grid grid-cols-3 gap-2.5 sm:gap-3 w-full max-w-sm">
                 <a
                   href={EXTERNAL_LINKS.instagramConnectUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-2 rounded-2xl bg-white/10 hover:bg-white/20 px-3.5 py-2 border border-white/15 transition-all hover:-translate-y-0.5"
+                  className="group flex flex-col items-center justify-center gap-1.5 rounded-2xl bg-white/10 hover:bg-white/20 py-3 px-2 border border-white/15 transition-all hover:-translate-y-0.5 active:scale-95"
                   title="Connect on Instagram"
                 >
                   <img
                     src={CANVA_ASSETS.travelAndStay.instagramIcon}
                     alt="Instagram"
-                    className="w-8 h-8 object-contain"
+                    className="w-8 h-8 sm:w-9 sm:h-9 object-contain drop-shadow"
                   />
-                  <span className="font-courier text-xs text-white font-bold">
+                  <span className="font-spartan text-[11px] sm:text-xs text-white font-bold tracking-wide">
                     Instagram
                   </span>
                 </a>
@@ -671,15 +644,15 @@ export default function TravelAndStaySection({
                   href={EXTERNAL_LINKS.messengerConnectUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-2 rounded-2xl bg-white/10 hover:bg-white/20 px-3.5 py-2 border border-white/15 transition-all hover:-translate-y-0.5"
+                  className="group flex flex-col items-center justify-center gap-1.5 rounded-2xl bg-white/10 hover:bg-white/20 py-3 px-2 border border-white/15 transition-all hover:-translate-y-0.5 active:scale-95"
                   title="Connect on Messenger"
                 >
                   <img
                     src={CANVA_ASSETS.travelAndStay.messengerIcon}
                     alt="Messenger"
-                    className="w-8 h-8 object-contain"
+                    className="w-8 h-8 sm:w-9 sm:h-9 object-contain drop-shadow"
                   />
-                  <span className="font-courier text-xs text-white font-bold">
+                  <span className="font-spartan text-[11px] sm:text-xs text-white font-bold tracking-wide">
                     Messenger
                   </span>
                 </a>
@@ -688,121 +661,90 @@ export default function TravelAndStaySection({
                   href={EXTERNAL_LINKS.facebookConnectUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-2 rounded-2xl bg-white/10 hover:bg-white/20 px-3.5 py-2 border border-white/15 transition-all hover:-translate-y-0.5"
+                  className="group flex flex-col items-center justify-center gap-1.5 rounded-2xl bg-white/10 hover:bg-white/20 py-3 px-2 border border-white/15 transition-all hover:-translate-y-0.5 active:scale-95"
                   title="Connect on Facebook"
                 >
                   <img
                     src={CANVA_ASSETS.travelAndStay.facebookIcon}
                     alt="Facebook"
-                    className="w-8 h-8 object-contain"
+                    className="w-8 h-8 sm:w-9 sm:h-9 object-contain drop-shadow"
                   />
-                  <span className="font-courier text-xs text-white font-bold">
+                  <span className="font-spartan text-[11px] sm:text-xs text-white font-bold tracking-wide">
                     Facebook
                   </span>
                 </a>
               </div>
             </div>
 
-            {/* Right: Official Coordinator 8WILLHAPPEN + WhatsApp Rica */}
-            <div className="flex flex-col items-center md:items-end text-center md:text-right border-t md:border-t-0 md:border-l border-white/15 pt-6 md:pt-0 md:pl-8">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#f2ffc5]/15 px-3 py-1 font-spartan font-bold text-xs text-[#f2ffc5] tracking-wider uppercase border border-[#f2ffc5]/30">
-                <Sparkle className="w-3.5 h-3.5" weight="fill" />
-                OFFICIAL COORDINATOR 8WILLHAPPEN
-              </span>
+            {/* Right Column: Official Coordinator 8WILLHAPPEN + Rica */}
+            <div className="flex flex-col items-center justify-between text-center pt-6 md:pt-0 md:pl-8">
+              <div className="flex flex-col items-center">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#f2ffc5]/15 px-3.5 py-1 font-spartan font-bold text-[11px] text-[#f2ffc5] tracking-[0.1em] uppercase border border-[#f2ffc5]/30 text-balance">
+                  <Sparkle className="w-3.5 h-3.5" weight="fill" />
+                  <span>OFFICIAL COORDINATOR &bull; 8WILLHAPPEN</span>
+                </span>
 
-              <div className="mt-3 flex items-center gap-3">
-                <img
-                  src={CANVA_ASSETS.travelAndStay.whatsappLogo}
-                  alt="WhatsApp"
-                  className="w-9 h-9 object-contain drop-shadow"
-                />
-                <div className="text-left">
-                  <p className="font-spartan font-bold text-lg sm:text-xl text-white tracking-wider">
-                    RICA - 09771996706
-                  </p>
-                  <p className="font-courier text-xs text-stone-300">
-                    Wedding Day & Travel Assistance
-                  </p>
+                <h4 className="mt-3 font-spartan font-bold text-lg sm:text-xl text-white tracking-[0.06em] uppercase leading-snug text-balance">
+                  RICA - 09771996706
+                </h4>
+
+                <div className="mt-1 flex items-center justify-center gap-2">
+                  <img
+                    src={CANVA_ASSETS.travelAndStay.whatsappLogo}
+                    alt="WhatsApp"
+                    className="h-3.5 sm:h-4 w-auto object-contain opacity-90"
+                  />
+                  <span className="font-courier text-xs text-stone-300 text-pretty">
+                    Wedding Day &amp; Travel Assistance
+                  </span>
                 </div>
               </div>
 
-              <div className="mt-4 flex flex-wrap items-center justify-center md:justify-end gap-2.5">
+              <div className="mt-5 grid grid-cols-3 gap-2.5 sm:gap-3 w-full max-w-sm">
                 <a
                   href={EXTERNAL_LINKS.coordinatorWhatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-full bg-[#25D366] hover:bg-[#32e072] text-[#072612] font-spartan font-bold text-xs uppercase tracking-wider px-4 py-2 shadow-md transition-all active:scale-95"
+                  className="flex flex-col items-center justify-center gap-1.5 rounded-2xl bg-[#25D366] hover:bg-[#32e072] text-[#072612] py-3 px-2 shadow-md transition-all hover:-translate-y-0.5 active:scale-95"
                 >
-                  <ChatCircleDots className="w-4 h-4" weight="fill" />
-                  <span>WhatsApp Rica</span>
+                  <ChatCircleDots className="w-6 h-6 sm:w-7 sm:h-7" weight="fill" />
+                  <span className="font-spartan font-bold text-[11px] sm:text-xs tracking-wide">
+                    WhatsApp
+                  </span>
                 </a>
 
                 <a
                   href={EXTERNAL_LINKS.coordinatorPhoneUrl}
-                  className="inline-flex items-center gap-1.5 rounded-full bg-white/15 hover:bg-white/25 text-white font-spartan font-bold text-xs uppercase tracking-wider px-3.5 py-2 border border-white/20 transition-all active:scale-95"
+                  className="flex flex-col items-center justify-center gap-1.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white py-3 px-2 border border-white/15 transition-all hover:-translate-y-0.5 active:scale-95"
                 >
-                  <PhoneCall className="w-4 h-4" weight="fill" />
-                  <span>Call</span>
+                  <PhoneCall className="w-6 h-6 sm:w-7 sm:h-7 text-[#f2ffc5]" weight="fill" />
+                  <span className="font-spartan font-bold text-[11px] sm:text-xs tracking-wide">
+                    Call Rica
+                  </span>
                 </a>
 
                 <button
                   type="button"
                   onClick={handleCopyPhone}
-                  className="inline-flex items-center gap-1.5 rounded-full bg-white/10 hover:bg-white/20 text-[#f2ffc5] font-courier text-xs px-3 py-2 border border-[#f2ffc5]/25 transition-all cursor-pointer"
+                  className="flex flex-col items-center justify-center gap-1.5 rounded-2xl bg-white/10 hover:bg-white/20 text-[#f2ffc5] py-3 px-2 border border-white/15 transition-all hover:-translate-y-0.5 active:scale-95 cursor-pointer"
                 >
                   {copiedPhone ? (
                     <>
-                      <Check className="w-3.5 h-3.5 text-emerald-300" />
-                      <span>Copied</span>
+                      <Check className="w-6 h-6 sm:w-7 sm:h-7 text-emerald-300" weight="bold" />
+                      <span className="font-spartan font-bold text-[11px] sm:text-xs tracking-wide text-emerald-300">
+                        Copied!
+                      </span>
                     </>
                   ) : (
                     <>
-                      <Copy className="w-3.5 h-3.5" />
-                      <span>Copy #</span>
+                      <Copy className="w-6 h-6 sm:w-7 sm:h-7" weight="bold" />
+                      <span className="font-spartan font-bold text-[11px] sm:text-xs tracking-wide">
+                        Copy #
+                      </span>
                     </>
                   )}
                 </button>
               </div>
-            </div>
-          </div>
-
-          {/* Bottom RSVP CTA Banner */}
-          <div className="mt-7 pt-6 border-t border-white/15 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <img
-                src={CANVA_ASSETS.wishes.doubleChatBubbleIcon}
-                alt=""
-                className="w-9 h-9 object-contain invert opacity-90"
-              />
-              <div className="text-center sm:text-left">
-                <p className="font-spartan font-bold text-sm sm:text-base text-[#f2ffc5] uppercase tracking-wider">
-                  Ready to celebrate with Kevin & Nica?
-                </p>
-                <p className="font-courier text-xs text-stone-300">
-                  Kindly confirm your attendance on or before November 15, 2026.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap items-center justify-center gap-2.5">
-              <a
-                href={EXTERNAL_LINKS.rsvpUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="shrink-0 inline-flex items-center gap-2 rounded-full bg-[#ff7a2f] hover:bg-[#ff8f4c] text-white font-spartan font-bold text-xs sm:text-sm uppercase tracking-widest px-6 py-3 shadow-lg transition-all cursor-pointer active:scale-95"
-              >
-                <span>Open Official RSVP</span>
-                <ArrowSquareOut className="w-4 h-4" weight="bold" />
-              </a>
-              {onOpenRsvp && (
-                <button
-                  type="button"
-                  onClick={onOpenRsvp}
-                  className="shrink-0 rounded-full bg-white/15 hover:bg-white/25 text-[#f2ffc5] border border-[#f2ffc5]/30 font-spartan font-bold text-xs uppercase tracking-wider px-4 py-3 transition-all cursor-pointer active:scale-95"
-                >
-                  Guestbook Wishes
-                </button>
-              )}
             </div>
           </div>
         </motion.div>
@@ -845,18 +787,18 @@ export default function TravelAndStaySection({
                     <HouseLine className="w-3.5 h-3.5" weight="fill" />
                     {selectedVilla.tag}
                   </span>
-                  <h4 className="mt-2 font-spartan font-bold text-xl text-stone-900">
+                  <h4 className="mt-2 font-spartan font-bold text-xl text-stone-900 text-balance">
                     {selectedVilla.name}
                   </h4>
-                  <p className="font-courier text-xs text-stone-600 mt-0.5">
+                  <p className="font-courier text-xs text-stone-600 mt-0.5 text-pretty">
                     {selectedVilla.subtitle}
                   </p>
 
                   <ul className="mt-3 space-y-1.5 text-left font-courier text-xs text-stone-700">
                     {selectedVilla.highlights.map((item) => (
-                      <li key={item} className="flex items-start gap-1.5">
+                      <li key={item} className="flex items-start gap-1.5 text-pretty">
                         <span className="text-[#d95338] font-bold">*</span>
-                        <span>{item}</span>
+                        <span className="text-pretty">{item}</span>
                       </li>
                     ))}
                   </ul>

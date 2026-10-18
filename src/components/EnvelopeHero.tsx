@@ -1,78 +1,147 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+import { useEffect, useState, useCallback } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import {
-  EnvelopeOpenIcon,
-  ArrowsOutSimpleIcon,
   XIcon,
-  CalendarPlusIcon,
-  SparkleIcon,
   ArrowSquareOutIcon,
 } from "@phosphor-icons/react";
 import { CANVA_ASSETS, EXTERNAL_LINKS } from "@/lib/assets";
 
-interface EnvelopeHeroProps {
-  onEnterClick: () => void;
-  onOpenRsvp: () => void;
+interface EnvelopeStickerConfig {
+  id: string;
+  src: string;
+  alt: string;
+  /** Exact position & size relative to the 2081x2400 envelope container to match image1 */
+  className: string;
+  /** Final resting rotation in degrees (matching image1) */
+  baseRotate: number;
+  /** Tucked starting offset inside the envelope pocket before opening */
+  closedX: string;
+  closedY: string;
+  closedRotate: number;
+  closedScale: number;
+  /** Subtle idle floating loop after emerging from the pocket */
+  floatRotateDelta: number;
+  floatY: number;
+  duration: number;
+  delay: number;
 }
 
-export function EnvelopeHero({ onEnterClick, onOpenRsvp }: EnvelopeHeroProps) {
-  const reduceMotion = useReducedMotion();
+const ENVELOPE_STICKERS: EnvelopeStickerConfig[] = [
+  {
+    id: "peony",
+    src: CANVA_ASSETS.page1.envelopeStickers.pinkPeonyCutout,
+    alt: "Pink Peony Flower",
+    className: "left-[-1.5%] top-[16.5%] w-[31%] z-20",
+    baseRotate: -12,
+    closedX: "22%",
+    closedY: "68%",
+    closedRotate: -28,
+    closedScale: 0.58,
+    floatRotateDelta: 2.5,
+    floatY: -3.5,
+    duration: 3.8,
+    delay: 0.34,
+  },
+  {
+    id: "cocktail",
+    src: CANVA_ASSETS.page1.envelopeStickers.berryCocktailCutout,
+    alt: "Signature Berry Cocktail",
+    className: "left-[10.5%] top-[30%] w-[35.5%] z-30",
+    baseRotate: -4,
+    closedX: "14%",
+    closedY: "74%",
+    closedRotate: -16,
+    closedScale: 0.6,
+    floatRotateDelta: 2,
+    floatY: -4,
+    duration: 4.2,
+    delay: 0.42,
+  },
+  {
+    id: "disco",
+    src: CANVA_ASSETS.page1.envelopeStickers.discoBall,
+    alt: "Reflective Disco Ball",
+    className: "left-[36.5%] top-[51.5%] w-[26%] z-30",
+    baseRotate: 0,
+    closedX: "0%",
+    closedY: "72%",
+    closedRotate: -20,
+    closedScale: 0.62,
+    floatRotateDelta: 3,
+    floatY: -3,
+    duration: 4.5,
+    delay: 0.52,
+  },
+  {
+    id: "chess",
+    src: CANVA_ASSETS.page1.envelopeStickers.chessboardCutout,
+    alt: "Beach Checkered Paddle & Pickleball",
+    className: "left-[58%] top-[33.5%] w-[22.5%] z-20",
+    baseRotate: -155,
+    closedX: "-16%",
+    closedY: "72%",
+    closedRotate: -172,
+    closedScale: 0.58,
+    floatRotateDelta: 2.5,
+    floatY: -4,
+    duration: 3.9,
+    delay: 0.46,
+  },
+  {
+    id: "vinyl",
+    src: CANVA_ASSETS.page1.envelopeStickers.vinylRecord,
+    alt: "Vinyl Record",
+    className: "left-[76.5%] top-[21.5%] w-[23.5%] z-30",
+    baseRotate: 8,
+    closedX: "-24%",
+    closedY: "110%",
+    closedRotate: -18,
+    closedScale: 0.56,
+    floatRotateDelta: 3.5,
+    floatY: -3.5,
+    duration: 4.1,
+    delay: 0.38,
+  },
+];
+
+export interface EnvelopeHeroProps {
+  onOpenRsvp?: () => void;
+}
+
+export function EnvelopeHero({ onOpenRsvp }: EnvelopeHeroProps = {}) {
   const [isEnvelopeOpen, setIsEnvelopeOpen] = useState(false);
+  const [isReplaying, setIsReplaying] = useState(false);
   const [activeLightboxImage, setActiveLightboxImage] = useState<{
     src: string;
     title: string;
     subtitle: string;
   } | null>(null);
 
-  const stickers = [
-    {
-      id: "peony",
-      src: CANVA_ASSETS.page1.envelopeStickers.pinkPeonyCutout,
-      alt: "Pink Peony Flower",
-      closedPos: { x: -45, y: 18, rotate: -15, scale: 0.72, opacity: 0.85 },
-      openPos: { x: -135, y: -95, rotate: -24, scale: 1.05, opacity: 1 },
-      className: "w-20 md:w-24",
-    },
-    {
-      id: "cocktail",
-      src: CANVA_ASSETS.page1.envelopeStickers.berryCocktailCutout,
-      alt: "Signature Berry Cocktail",
-      closedPos: { x: -24, y: 26, rotate: -4, scale: 0.7, opacity: 0.85 },
-      openPos: { x: -92, y: -145, rotate: -12, scale: 1, opacity: 1 },
-      className: "w-20 md:w-24",
-    },
-    {
-      id: "disco",
-      src: CANVA_ASSETS.page1.envelopeStickers.discoBall,
-      alt: "Reflective Disco Ball",
-      closedPos: { x: 4, y: 38, rotate: 0, scale: 0.68, opacity: 0.85 },
-      openPos: { x: 0, y: -168, rotate: 12, scale: 1, opacity: 1 },
-      className: "w-16 md:w-20",
-    },
-    {
-      id: "chess",
-      src: CANVA_ASSETS.page1.envelopeStickers.chessboardCutout,
-      alt: "Beach Chessboard",
-      closedPos: { x: 35, y: 22, rotate: -155, scale: 0.68, opacity: 0.85 },
-      openPos: { x: 92, y: -142, rotate: -140, scale: 1, opacity: 1 },
-      className: "w-16 md:w-20",
-    },
-    {
-      id: "vinyl",
-      src: CANVA_ASSETS.page1.envelopeStickers.vinylRecord,
-      alt: "Vinyl Record",
-      closedPos: { x: 64, y: 20, rotate: 4, scale: 0.68, opacity: 0.85 },
-      openPos: { x: 138, y: -92, rotate: 22, scale: 1.05, opacity: 1 },
-      className: "w-14 md:w-18",
-    },
-  ];
+  // Automatically trigger the envelope opening + asset pop-out animation on mount
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsEnvelopeOpen(true);
+    }, 180);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Clicking the envelope replays the tuck-and-open animation so it always settles on the open state
+  const handleReplayEnvelope = useCallback(() => {
+    if (isReplaying) return;
+    setIsReplaying(true);
+    setIsEnvelopeOpen(false);
+    setTimeout(() => {
+      setIsEnvelopeOpen(true);
+      setIsReplaying(false);
+    }, 480);
+  }, [isReplaying]);
 
   return (
     <section
       id="cover"
-      className="relative min-h-[100dvh] w-full overflow-hidden flex flex-col items-center justify-between py-8 md:py-12 px-4 select-none"
+      className="relative min-h-[100dvh] w-full overflow-hidden flex flex-col items-center justify-between pt-8 pb-24 md:pt-12 md:pb-28 px-4 select-none"
     >
       {/* Full-bleed Ocean Sunlight Bokeh Background from Canva Page 1 */}
       <div className="absolute inset-0 z-0">
@@ -86,182 +155,170 @@ export function EnvelopeHero({ onEnterClick, onOpenRsvp }: EnvelopeHeroProps) {
 
       {/* Top Logo: Kevin and Nica Orange Script */}
       <motion.div
-        initial={reduceMotion ? false : { opacity: 0, y: -18 }}
+        initial={{ opacity: 0, y: -18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        className="relative z-20 flex flex-col items-center pt-2 md:pt-4"
+        className="relative z-20 flex flex-col items-center pt-1 md:pt-2"
       >
         <img
           src={CANVA_ASSETS.page1.kevinAndNicaOrangeLogo}
           alt="Kevin and Nica"
           className="w-32 sm:w-36 md:w-44 h-auto sticker-shadow"
         />
-        <p className="mt-1 font-courier-prime text-xs sm:text-sm tracking-[0.2em] uppercase text-[#194a69] font-bold bg-white/65 backdrop-blur-md px-3.5 py-1 rounded-full border border-white/60 shadow-xs">
-          01 . 09 . 2027 - Botolan, Zambales
-        </p>
       </motion.div>
 
-      {/* Centerpiece: Interactive Orange Envelope + Sliding Postcard + Hidden Stickers */}
-      <div className="relative z-20 flex flex-col items-center my-4 md:my-6 w-full max-w-md">
-        {/* Interactive Status Pill */}
-        <motion.button
-          type="button"
-          onClick={() => setIsEnvelopeOpen((prev) => !prev)}
-          whileTap={{ scale: 0.97 }}
-          className="mb-3 inline-flex items-center gap-2 rounded-full bg-[#fffaf2]/90 hover:bg-[#fffaf2] text-[#c74f16] border border-[#e06324]/30 px-4 py-1.5 text-xs sm:text-sm font-aileron font-bold shadow-md transition-colors cursor-pointer"
-        >
-          <EnvelopeOpenIcon weight="duotone" className="w-4 h-4" />
-          <span>
-            {isEnvelopeOpen
-              ? "Tap postcard to read full invite or close envelope"
-              : "Tap the envelope to pull out your postcard"}
-          </span>
-        </motion.button>
-
-        {/* Envelope Stack Container */}
-        <div
-          onClick={() => setIsEnvelopeOpen((prev) => !prev)}
+      {/* Centerpiece: Orange Envelope + Animated Rising Postcard + 5 Pop-Out Stickers (Matching image1) */}
+      <div className="relative z-20 flex flex-col items-center mt-8 sm:mt-10 mb-4 w-full max-w-md">
+        <motion.div
+          onClick={handleReplayEnvelope}
           role="button"
           tabIndex={0}
-          aria-label="Interactive Wedding Invitation Envelope"
+          aria-label="Interactive Wedding Invitation Envelope - Tap to replay opening animation"
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {
               e.preventDefault();
-              setIsEnvelopeOpen((prev) => !prev);
+              handleReplayEnvelope();
             }
           }}
-          className="relative w-[290px] sm:w-[340px] md:w-[380px] aspect-[225/188] flex items-center justify-center cursor-pointer group"
+          initial={{ scale: 0.92, opacity: 0, y: 20 }}
+          animate={{
+            scale: isEnvelopeOpen ? 1 : 0.96,
+            opacity: 1,
+            y: isEnvelopeOpen ? 0 : 8,
+          }}
+          transition={{
+            duration: 0.65,
+            ease: [0.16, 1, 0.3, 1],
+          }}
+          className="relative w-[280px] sm:w-[330px] md:w-[370px] aspect-[2081/2400] flex items-center justify-center cursor-pointer group"
         >
-          {/* Layer 1: Open Orange Envelope Back (MAHWl6qjG_k.png) */}
-          <img
+          {/* Layer 1 (z-10): Open Orange Envelope Back (MAHWl6qjG_k.png - 2081x2400) */}
+          <motion.img
             src={CANVA_ASSETS.page1.envelopeBackOpen}
             alt="Open Orange Textured Envelope"
+            initial={{ scaleY: 0.94 }}
+            animate={{ scaleY: isEnvelopeOpen ? 1 : 0.95 }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+            style={{ transformOrigin: "bottom center" }}
             className="absolute inset-0 w-full h-full object-contain z-10 sticker-shadow-lg transition-transform duration-500 group-hover:scale-[1.01]"
           />
 
-          {/* Layer 2: The 5 Hidden Stickers tucked inside the envelope in Canva Page 1 */}
-          <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
-            {stickers.map((s) => (
-              <motion.img
-                key={s.id}
-                src={s.src}
-                alt={s.alt}
-                initial={false}
-                animate={
-                  reduceMotion
-                    ? isEnvelopeOpen
-                      ? { ...s.openPos, transition: { duration: 0 } }
-                      : { ...s.closedPos, transition: { duration: 0 } }
-                    : isEnvelopeOpen
-                      ? s.openPos
-                      : s.closedPos
-                }
-                transition={{
-                  type: "spring",
-                  stiffness: 160,
-                  damping: 18,
-                }}
-                className={`absolute object-contain sticker-shadow ${s.className}`}
-              />
-            ))}
-          </div>
-
-          {/* Layer 3: "You're Invited" Postcard (MAHXQjHpdt0.png) sandwiched inside pocket */}
+          {/* Layer 2 (z-20): "You're Invited" Postcard (MAHXQjHpdt0.png) rising out of the envelope pocket */}
           <motion.div
-            initial={false}
+            initial={{ y: "44%", scale: 0.92, rotate: -1.5 }}
             animate={
-              reduceMotion
-                ? {
-                    y: isEnvelopeOpen ? -72 : 34,
-                    rotate: isEnvelopeOpen ? -2 : 0,
-                    scale: isEnvelopeOpen ? 1.04 : 0.94,
-                  }
-                : {
-                    y: isEnvelopeOpen ? -78 : 34,
-                    rotate: isEnvelopeOpen ? -2.5 : 0,
-                    scale: isEnvelopeOpen ? 1.05 : 0.94,
-                  }
+              isEnvelopeOpen
+                ? { y: "0%", scale: 1, rotate: 0 }
+                : { y: "44%", scale: 0.92, rotate: -1.5 }
             }
             transition={{
               type: "spring",
-              stiffness: 140,
-              damping: 18,
+              stiffness: 115,
+              damping: 16,
+              mass: 0.9,
+              delay: isEnvelopeOpen ? 0.12 : 0,
             }}
-            className="relative z-20 w-[92%] aspect-[1546/1017] rounded-sm overflow-hidden shadow-xl group/card"
-            onClick={(e) => {
-              if (isEnvelopeOpen) {
-                e.stopPropagation();
-                setActiveLightboxImage({
-                  src: CANVA_ASSETS.page1.youreInvitedPostcard,
-                  title: "You're Invited - Kevin & Nica",
-                  subtitle:
-                    "Botolan, Zambales, Philippines - Please reply online by November 15, 2026",
-                });
-              }
-            }}
+            className="absolute -top-[8.35%] left-[0.75%] w-[98.5%] aspect-[1512/966] z-20"
           >
-            <img
-              src={CANVA_ASSETS.page1.youreInvitedPostcard}
-              alt="You're Invited Postcard from Kevin and Nica"
-              className="w-full h-full object-cover"
-            />
-            {isEnvelopeOpen && (
-              <div className="absolute bottom-2 right-2 bg-[#0c3c78]/85 text-white text-[11px] font-aileron font-bold px-2.5 py-1 rounded-full flex items-center gap-1 shadow-md backdrop-blur-xs">
-                <ArrowsOutSimpleIcon weight="bold" className="w-3.5 h-3.5" />
-                <span>Inspect Postcard</span>
-              </div>
-            )}
+            <motion.div
+              animate={
+                isEnvelopeOpen
+                  ? { y: [0, -3.5, 0] }
+                  : { y: 0 }
+              }
+              transition={{
+                duration: 4.4,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 1.0,
+              }}
+              className="w-full h-full rounded-[2px] overflow-hidden shadow-xl transition-transform duration-300 group-hover:scale-[1.01]"
+            >
+              <img
+                src={CANVA_ASSETS.page1.youreInvitedPostcard}
+                alt="You're Invited Postcard from Kevin and Nica"
+                className="w-full h-full object-cover"
+              />
+            </motion.div>
           </motion.div>
 
-          {/* Layer 4: Orange Envelope Front Pocket (MAHWrLLwbCY.png) */}
+          {/* Layer 3 (z-30): The 5 Stickers emerging from inside the envelope pocket in front of the postcard */}
+          <div className="absolute inset-0 z-30 pointer-events-none">
+            {ENVELOPE_STICKERS.map((s) => (
+              <motion.div
+                key={s.id}
+                initial={{
+                  x: s.closedX,
+                  y: s.closedY,
+                  rotate: s.closedRotate,
+                  scale: s.closedScale,
+                  opacity: 0,
+                }}
+                animate={
+                  isEnvelopeOpen
+                    ? {
+                        x: "0%",
+                        y: "0%",
+                        rotate: s.baseRotate,
+                        scale: 1,
+                        opacity: 1,
+                      }
+                    : {
+                        x: s.closedX,
+                        y: s.closedY,
+                        rotate: s.closedRotate,
+                        scale: s.closedScale,
+                        opacity: 0,
+                      }
+                }
+                transition={{
+                  type: "spring",
+                  stiffness: 150,
+                  damping: 15,
+                  mass: 0.85,
+                  delay: isEnvelopeOpen ? s.delay : 0,
+                  opacity: {
+                    duration: 0.25,
+                    delay: isEnvelopeOpen ? s.delay : 0,
+                  },
+                }}
+                className={`absolute ${s.className}`}
+              >
+                <motion.img
+                  src={s.src}
+                  alt={s.alt}
+                  animate={
+                    isEnvelopeOpen
+                      ? {
+                          y: [0, s.floatY, 0],
+                          rotate: [0, s.floatRotateDelta, 0],
+                        }
+                      : { y: 0, rotate: 0 }
+                  }
+                  transition={{
+                    duration: s.duration,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: s.delay + 0.6,
+                  }}
+                  className="w-full h-auto object-contain sticker-shadow"
+                />
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Layer 4 (z-40): Orange Envelope Front Pocket (MAHWrLLwbCY.png - 2400x1718 = 62.07% of 2081x2400 height) */}
           <img
             src={CANVA_ASSETS.page1.envelopeFrontPocket}
             alt="Orange Envelope Pocket Front"
-            className="absolute bottom-0 left-0 w-full h-[83.5%] object-contain object-bottom z-30 pointer-events-none"
+            className="absolute bottom-0 left-0 w-full h-[62.07%] object-contain object-bottom z-40 pointer-events-none"
           />
-        </div>
-
-        {/* ENTER -> Button from Canva Page 1 (MAHXQnPpBeg.png) */}
-        <motion.button
-          type="button"
-          onClick={onEnterClick}
-          whileHover={reduceMotion ? {} : { scale: 1.04, y: -2 }}
-          whileTap={{ scale: 0.97 }}
-          aria-label="Enter Kevin and Nica's Wedding Invitation"
-          className="relative z-40 -mt-5 sm:-mt-6 w-52 sm:w-60 md:w-64 focus:outline-none focus-visible:ring-4 focus-visible:ring-orange-400 rounded-full cursor-pointer sticker-shadow-lg"
-        >
-          <img
-            src={CANVA_ASSETS.page1.enterButton}
-            alt="ENTER"
-            className="w-full h-auto object-contain"
-          />
-        </motion.button>
-
-        {/* Secondary Quick-Action Bar under Enter Button */}
-        <div className="mt-3 flex flex-wrap items-center justify-center gap-2.5 z-30">
-          <button
-            type="button"
-            onClick={() => setIsEnvelopeOpen((prev) => !prev)}
-            className="px-3.5 py-1.5 rounded-full bg-white/80 hover:bg-white text-[#9f3e10] font-aileron font-bold text-xs shadow-sm border border-white/60 transition-all cursor-pointer active:scale-95"
-          >
-            {isEnvelopeOpen ? "Tuck Postcard Back" : "Peek Inside Envelope"}
-          </button>
-          <a
-            href={EXTERNAL_LINKS.rsvpUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-3.5 py-1.5 rounded-full bg-[#e6681b] hover:bg-[#cf5912] text-white font-aileron font-bold text-xs shadow-sm transition-all cursor-pointer active:scale-95 inline-flex items-center gap-1.5"
-          >
-            <SparkleIcon weight="fill" className="w-3.5 h-3.5" />
-            <span>Quick RSVP</span>
-            <ArrowSquareOutIcon weight="bold" className="w-3 h-3" />
-          </a>
-        </div>
+        </motion.div>
       </div>
 
       {/* Bottom Vintage Postcard: "meet us in zambales" (MAHWlw9W9sY.png) */}
       <motion.div
-        initial={reduceMotion ? false : { opacity: 0, y: 24 }}
+        initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
         className="relative z-20 w-full max-w-[330px] sm:max-w-[380px] md:max-w-[430px] mt-2"
@@ -297,22 +354,22 @@ export function EnvelopeHero({ onEnterClick, onOpenRsvp }: EnvelopeHeroProps) {
             className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4"
           >
             <motion.div
-              initial={reduceMotion ? false : { scale: 0.92, opacity: 0 }}
+              initial={{ scale: 0.92, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={reduceMotion ? { opacity: 0 } : { scale: 0.92, opacity: 0 }}
+              exit={{ scale: 0.92, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
               className="relative max-w-2xl w-full bg-[#fdfaf3] rounded-2xl p-3 sm:p-5 shadow-2xl border border-amber-900/15"
             >
               <div className="flex items-center justify-between pb-3 px-1">
                 <div>
-                  <h3 className="font-aileron font-bold text-base sm:text-lg text-[#2b241d]">
+                  <h3 className="font-aileron font-bold text-base sm:text-lg text-[#2b241d] text-balance">
                     {activeLightboxImage.title}
                   </h3>
                   <a
                     href={EXTERNAL_LINKS.villaElisaWebsiteUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-courier-prime text-xs sm:text-sm text-[#194a69] hover:text-[#c74f16] underline inline-flex items-center gap-1"
+                    className="font-courier-prime text-xs sm:text-sm text-[#194a69] hover:text-[#c74f16] underline inline-flex items-center gap-1 text-pretty"
                   >
                     <span>{activeLightboxImage.subtitle}</span>
                     <ArrowSquareOutIcon weight="bold" className="w-3.5 h-3.5" />
@@ -335,31 +392,19 @@ export function EnvelopeHero({ onEnterClick, onOpenRsvp }: EnvelopeHeroProps) {
                 />
               </div>
               <div className="mt-4 flex flex-wrap items-center justify-between gap-3 px-1">
-                <span className="font-courier-prime text-xs text-[#6b5d4d]">
+                <span className="font-courier-prime text-xs text-[#6b5d4d] text-pretty">
                   Reply online by November 15, 2026
                 </span>
-                <div className="flex items-center gap-2">
-                  <a
-                    href={EXTERNAL_LINKS.rsvpUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-4 py-2 rounded-full bg-[#e6681b] hover:bg-[#cf5912] text-white font-aileron font-bold text-xs sm:text-sm shadow-sm transition-colors cursor-pointer inline-flex items-center gap-1.5"
-                  >
-                    <span>RSVP Now</span>
-                    <ArrowSquareOutIcon weight="bold" className="w-3.5 h-3.5" />
-                  </a>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setActiveLightboxImage(null);
-                      onEnterClick();
-                    }}
-                    className="px-4 py-2 rounded-full bg-[#194a69] hover:bg-[#123850] text-white font-aileron font-bold text-xs sm:text-sm shadow-sm transition-colors cursor-pointer inline-flex items-center gap-1.5"
-                  >
-                    <CalendarPlusIcon weight="bold" className="w-4 h-4" />
-                    <span>See Calendar & Details</span>
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveLightboxImage(null);
+                    onOpenRsvp?.();
+                  }}
+                  className="px-4 py-2 rounded-full bg-[#e6681b] hover:bg-[#cf5912] text-white font-aileron font-bold text-xs sm:text-sm shadow-sm transition-colors cursor-pointer inline-flex items-center gap-1.5"
+                >
+                  <span>RSVP Now</span>
+                </button>
               </div>
             </motion.div>
           </motion.div>

@@ -10,13 +10,13 @@ export const CANVA_ASSETS = {
     envelopeBackOriginal: "/assets/canva/MAG1YJIjww0.png",
     envelopeFrontPocket: "/assets/canva/MAHWrLLwbCY.png",
     envelopeFrontOriginal: "/assets/canva/MAG1YM-zAyM.png",
-    youreInvitedPostcard: "/assets/canva/MAHXQjHpdt0.png",
+    youreInvitedPostcard: "/assets/canva/MAHXQjHpdt0.png?v=2",
     enterButton: "/assets/canva/MAHXQnPpBeg.png",
     enterButtonAlt: "/assets/canva/MAHXQp8Cgo0.png",
     meetUsInZambalesPostcard: "/assets/canva/MAHWlw9W9sY.png",
     // Hidden stickers tucked inside the envelope pocket on Page 1
     envelopeStickers: {
-      chessboardCutout: "/assets/canva/MAHW8xYVYf8.png",
+      chessboardCutout: "/assets/canva/MAHW8xYVYf8.png?v=2",
       chessboardOriginal: "/assets/canva/MAF4SaTQjqI.jpg",
       discoBall: "/assets/canva/MAG2oNec3X4.png",
       berryCocktailCutout: "/assets/canva/MAHWrzifqTU.png",
@@ -37,7 +37,7 @@ export const CANVA_ASSETS = {
     kraftPaperOriginal: "/assets/canva/MAE4lFKhOQk.jpg",
     kevinAndNicaWhiteLogo: "/assets/canva/MAHXZYh19nk.png",
     backArrowSvg: "/assets/canva/MAFWyJvWPsc.svg",
-    mapPinIcon: "/assets/canva/MAFcfX9tidU.png",
+    mapPinIcon: "/assets/canva/MAFcfX9tidU.png?v=2",
     // Calendar Stickers & Couple Photos
     villaElisaThumb: "/assets/canva/MAHXZej_r3I.jpg",
     palmTreeSticker: "/assets/canva/MAHXWTvLJcg.png",
@@ -46,7 +46,7 @@ export const CANVA_ASSETS = {
     kevinBwOriginal: "/assets/canva/MAHXWSz_T0Y.png",
     pearlSeashellSticker: "/assets/canva/MAHXWStf9sI.png",
     pearlSeashellOriginal: "/assets/canva/MAG4uY-9el0.png",
-    halftoneHeartHand: "/assets/canva/MAG8-8qoueQ.png",
+    halftoneHeartHand: "/assets/canva/MAG8-8qoueQ.png?v=2",
     weSayTextSticker: "/assets/canva/MAHXWfSKyFs.png",
     weSayOriginal: "/assets/canva/MAHXWFLpkB0.png",
     iDoTextSticker: "/assets/canva/MAHXWesTlTs.png",
@@ -119,7 +119,7 @@ export const CANVA_ASSETS = {
     beachPlantsCutout: "/assets/canva/MAHXZnIeKag.png",
     beachPlantsOriginal: "/assets/canva/MAEEFQJrmwg.jpg",
     maskingTapeStrip: "/assets/canva/MAGK1_f1xy4.png",
-    starfishCutout: "/assets/canva/starfish-cutout.png",
+    starfishCutout: "/assets/canva/starfish-cutout.png?v=2",
     // Ransom Note Letters for "p-a-r-a-d-i-s-e"
     ransomLetters: [
       { char: "p", src: "/assets/canva/MAFrVrg1CZE.png" },
@@ -133,9 +133,9 @@ export const CANVA_ASSETS = {
     ],
     // Where to Stay Badges & Villa Polaroids
     badgeShadowBacking: "/assets/canva/MAGQYh6zpec.png",
-    sundownersBadge: "/assets/canva/sundowners-badge.png",
-    kalintoBadge: "/assets/canva/kalinto-badge.png",
-    airbnbBadge: "/assets/canva/airbnb-badge.png",
+    sundownersBadge: "/assets/canva/sundowners-badge.png?v=2",
+    kalintoBadge: "/assets/canva/kalinto-badge.png?v=2",
+    airbnbBadge: "/assets/canva/airbnb-badge.png?v=2",
     sintaVillaCard: "/assets/canva/MAHXZX08RyE.png",
     irogVillaCard: "/assets/canva/MAHXZQM_reE.png",
     zambahouseVillaCard: "/assets/canva/MAHXZTw97RA.png",
@@ -168,13 +168,13 @@ export const EXTERNAL_LINKS = {
   villaElisaWebsiteUrl: "https://botolan.villaelisaresorts.com/",
   rsvpUrl:
     "https://script.google.com/macros/s/AKfycbz3RGPboUmFa1c7Mdgq_lMh4gwRcRF_4PtCib1wb8x9dLwSwgvZVRP13ktzlhr8K4AkvA/exec",
-  dressCodeInspoQrUrl: "https://qrcodestack.com/qr/af17ce46-129f-4d6c-89b4-30040c158ee8",
+  dressCodeInspoQrUrl: "https://pin.it/7prGgVO2S",
   sintaAirbnbUrl:
     "https://www.airbnb.com/rooms/1253501963512758076?source_impression_id=p3_1791540880_P3hjU9RDPgfhtbfB",
   irogAirbnbUrl: "https://share.google/ItOMNroSYXbvuQdlf",
   zambahouseAirbnbUrl:
     "https://www.airbnb.ca/rooms/1522131996072382612?source_impression_id=p3_1791541355_P37enTc2mCnaH0_i",
-  sundownersUrl: "https://www.sundowners.ph/",
+  sundownersUrl: "https://www.sundowners.ph/Zambales",
   kalintoUrl:
     "https://www.kalintoresort.com/booknow?utm_source=google&utm_medium=cpc&utm_campaign=gsn_brandcomp&utm_content=ad_1&utm_term=kalinto&gad_source=1&gad_campaignid=24226901471&gbraid=0AAAABBtT3QFbl5iBwFvwkBCfug5N7ieap&gclid=CjwKCAjwoaLWBhAWEiwAnyituy1sBoNNzLfOcxPr0cm6CnMp8NsLKdB_a9IR2T2a8f8zy1uTYydzxRoCN9IQAvD_BwE",
   airbnbBotolanUrl: "https://www.airbnb.com/s/Botolan--Zambales--Philippines/homes",
@@ -185,9 +185,11 @@ export const EXTERNAL_LINKS = {
   coordinatorWhatsappUrl:
     "https://wa.me/639771996706?text=Hi%20Rica%20(8WILLHAPPEN)!%20I%20am%20reaching%20out%20regarding%20Kevin%20%26%20Nica%27s%20Wedding%20on%20January%209%2C%202027.",
   coordinatorPhoneUrl: "tel:+639771996706",
-  instagramConnectUrl: "https://www.instagram.com/",
-  messengerConnectUrl: "https://www.messenger.com/",
-  facebookConnectUrl: "https://www.facebook.com/",
+  instagramConnectUrl:
+    "https://www.instagram.com/kevinandnica?exln=dTNxeGtzaXJpdTly&utm_source=qr",
+  messengerConnectUrl:
+    "https://m.me/j/sL1Q1DvuUIU-CIhu/?send_source=gc:copy_invite_link_c",
+  facebookConnectUrl: "https://fb.me/2qBWbCy80PS5Mpp",
 } as const;
 
 export function getAllPreloadAssetUrls(): string[] {
@@ -214,7 +216,6 @@ export function getAllPreloadAssetUrls(): string[] {
   collect(CANVA_ASSETS.page2);
   collect(CANVA_ASSETS.gamePlan);
   collect(CANVA_ASSETS.travelAndStay);
-  collect(CANVA_ASSETS.wishes);
 
   return Array.from(urls);
 }

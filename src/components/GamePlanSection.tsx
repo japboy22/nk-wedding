@@ -1,23 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
-import { SwatchesIcon, MapPinLineIcon } from "@phosphor-icons/react";
+import { motion } from "motion/react";
 import { CANVA_ASSETS } from "@/lib/assets";
 
-type GamePlanTheme = "dove" | "beach" | "pink";
-
-interface GamePlanSectionProps {
-  onBack: () => void;
-  onNextToTravel: () => void;
-}
-
-export function GamePlanSection({
-  onBack,
-  onNextToTravel,
-}: GamePlanSectionProps) {
-  const reduceMotion = useReducedMotion();
-  const [theme, setTheme] = useState<GamePlanTheme>("dove");
+export function GamePlanSection() {
+  const reduceMotion = false;
   const [activeStep, setActiveStep] = useState<number | null>(null);
 
   const timelineDetails = [
@@ -38,10 +26,7 @@ export function GamePlanSection({
     },
     {
       time: "8:00 PM",
-      title:
-        theme === "beach"
-          ? "Dancing is Highly Encouraged"
-          : "DAncing is Highly eNcourageD",
+      title: "Dancing is Highly Encouraged",
       note: "Hit the dance floor under the disco ball! Come for the love, stay for the party.",
     },
   ];
@@ -49,122 +34,31 @@ export function GamePlanSection({
   return (
     <section
       id="game-plan"
-      className="relative min-h-[100dvh] w-full overflow-hidden py-8 md:py-14 px-3 sm:px-6 flex flex-col items-center justify-between"
+      className="relative min-h-[100dvh] w-full overflow-hidden py-10 md:py-16 px-3 sm:px-6 flex flex-col items-center justify-center"
     >
-      {/* Dynamic Canva Backdrop Layers (Pages 3, 4 & 5) */}
+      {/* Canva Page 2 Beach Resort Backdrop + Paper Crease Texture */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        {theme === "beach" ? (
-          <>
-            <img
-              src={CANVA_ASSETS.gamePlan.beachResortBg}
-              alt="Villa Elisa Beach Resort Backdrop"
-              className="w-full h-full object-cover object-center"
-            />
-            <img
-              src={CANVA_ASSETS.gamePlan.foldedBluePaperBg}
-              alt="Folded Paper Texture Overlay"
-              className="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-overlay pointer-events-none"
-            />
-          </>
-        ) : (
-          <img
-            src={CANVA_ASSETS.gamePlan.foldedBluePaperBg}
-            alt="Blue Folded Paper Scrapbook Background"
-            className="w-full h-full object-cover object-center"
-          />
-        )}
-
-        {/* Top Ripped Paper Header Overlay (Peach on Page 5, Vibrant Pink on Page 3) */}
-        {theme === "dove" && (
-          <>
-            <img
-              src={CANVA_ASSETS.gamePlan.peachRippedPaper}
-              alt="Peach Ripped Paper Top"
-              className="absolute -top-16 sm:-top-20 -left-12 w-[125%] max-w-none h-48 sm:h-60 object-cover rotate-3 pointer-events-none drop-shadow-md"
-            />
-            <img
-              src={CANVA_ASSETS.gamePlan.peachRippedPaper}
-              alt="Peach Ripped Paper Bottom"
-              className="absolute -bottom-20 -right-16 w-[95%] max-w-none h-48 sm:h-60 object-cover rotate-[160deg] pointer-events-none drop-shadow-md"
-            />
-          </>
-        )}
-
-        {theme === "pink" && (
-          <>
-            <div className="absolute -top-14 -left-10 w-[120%] h-44 sm:h-52 rotate-2 overflow-hidden shadow-lg pointer-events-none">
-              <img
-                src={CANVA_ASSETS.gamePlan.vibrantPinkSurface}
-                alt="Vibrant Pink Ripped Paper"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <img
-              src={CANVA_ASSETS.gamePlan.pinkRippedPaperCutout}
-              alt="Pink Ripped Paper Corner"
-              className="absolute -bottom-20 -right-16 w-[95%] max-w-none h-48 sm:h-60 object-cover rotate-[160deg] pointer-events-none drop-shadow-md"
-            />
-          </>
-        )}
+        <img
+          src={CANVA_ASSETS.gamePlan.beachResortBg}
+          alt="Villa Elisa Beach Resort Backdrop"
+          className="w-full h-full object-cover object-center"
+        />
+        <img
+          src={CANVA_ASSETS.gamePlan.foldedBluePaperBg}
+          alt="Folded Paper Texture Overlay"
+          className="absolute inset-0 w-full h-full object-cover opacity-40 pointer-events-none"
+        />
       </div>
 
       {/* Main Content Container */}
       <div className="relative z-20 w-full max-w-[440px] md:max-w-3xl mx-auto flex flex-col items-center">
-        {/* Canva Backdrop Switcher Pill (Lets user experience Pages 3, 4 & 5 from Canva) */}
-        <div className="w-full flex flex-wrap items-center justify-between gap-2 mb-2 px-1">
-          <div className="inline-flex items-center gap-1 bg-slate-950/35 backdrop-blur-md p-1 rounded-full border border-white/25 text-white text-[11px] font-aileron font-bold">
-            <SwatchesIcon weight="duotone" className="w-3.5 h-3.5 ml-1.5" />
-            <button
-              type="button"
-              onClick={() => setTheme("dove")}
-              className={`px-2.5 py-1 rounded-full transition-colors cursor-pointer ${
-                theme === "dove"
-                  ? "bg-white text-[#194a69] shadow-xs"
-                  : "text-white/90 hover:text-white"
-              }`}
-            >
-              Dove Collage
-            </button>
-            <button
-              type="button"
-              onClick={() => setTheme("beach")}
-              className={`px-2.5 py-1 rounded-full transition-colors cursor-pointer ${
-                theme === "beach"
-                  ? "bg-white text-[#194a69] shadow-xs"
-                  : "text-white/90 hover:text-white"
-              }`}
-            >
-              Beach Resort
-            </button>
-            <button
-              type="button"
-              onClick={() => setTheme("pink")}
-              className={`px-2.5 py-1 rounded-full transition-colors cursor-pointer ${
-                theme === "pink"
-                  ? "bg-white text-[#194a69] shadow-xs"
-                  : "text-white/90 hover:text-white"
-              }`}
-            >
-              Pink Scrapbook
-            </button>
-          </div>
-
-          <button
-            type="button"
-            onClick={onBack}
-            className="inline-flex items-center gap-1.5 rounded-full bg-white/80 hover:bg-white text-[#494134] px-3 py-1 text-xs font-aileron font-bold shadow-xs cursor-pointer"
-          >
-            <span>Calendar</span>
-          </button>
-        </div>
-
         {/* Section Title: "The Game Plan" (League Spartan Bold) */}
         <motion.h2
           initial={reduceMotion ? false : { opacity: 0, y: -14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="font-spartan font-bold text-4xl sm:text-5xl md:text-6xl text-white tracking-tight text-center drop-shadow-[0_4px_12px_rgba(0,0,0,0.22)] mt-1 mb-6 sm:mb-8"
+          className="font-spartan font-bold text-4xl sm:text-5xl md:text-6xl text-white tracking-tight text-center text-balance drop-shadow-[0_4px_12px_rgba(0,0,0,0.22)] mt-1 mb-6 sm:mb-8"
         >
           The Game Plan
         </motion.h2>
@@ -195,31 +89,12 @@ export function GamePlanSection({
               className="absolute -left-10 sm:-left-12 bottom-3 sm:bottom-4 w-28 sm:w-34 h-auto object-contain z-20 sticker-shadow"
             />
 
-            {/* White Dove Sticker (MAHX30HSMgg.png - Featured on Page 5) */}
-            {theme === "dove" && (
-              <motion.img
-                animate={
-                  reduceMotion
-                    ? {}
-                    : { y: [0, -5, 0], rotate: [0, 2, 0] }
-                }
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                src={CANVA_ASSETS.gamePlan.whiteDoveCutout}
-                alt="White Dove"
-                className="absolute -right-14 sm:-right-20 -top-6 sm:-top-8 w-36 sm:w-44 h-auto object-contain z-20 sticker-shadow pointer-events-none"
-              />
-            )}
-
             {/* Text Overlay */}
             <div className="absolute inset-0 flex flex-col items-center justify-center pt-5 px-8 text-center z-10">
               <span className="font-courier-prime font-bold text-xl sm:text-2xl text-[#494134] tracking-tight">
                 4:00 PM
               </span>
-              <p className="mt-1 font-courier-prime font-bold text-xs sm:text-sm text-[#494134] leading-tight max-w-[16ch]">
+              <p className="mt-1 font-courier-prime font-bold text-xs sm:text-sm text-[#494134] leading-tight max-w-[16ch] text-balance">
                 Catch Us by the Altar
               </p>
             </div>
@@ -262,7 +137,7 @@ export function GamePlanSection({
               <span className="font-courier-prime font-bold text-xl sm:text-2xl text-[#494134] tracking-tight">
                 5:00 PM
               </span>
-              <p className="mt-1 font-courier-prime font-bold text-xs sm:text-sm text-[#494134] leading-tight max-w-[18ch]">
+              <p className="mt-1 font-courier-prime font-bold text-xs sm:text-sm text-[#494134] leading-tight max-w-[18ch] text-balance">
                 Meet our favorite people over cocktails
               </p>
             </div>
@@ -311,20 +186,20 @@ export function GamePlanSection({
               <span className="font-courier-prime font-bold text-xl sm:text-2xl text-[#494134] tracking-tight">
                 6:00 PM
               </span>
-              <p className="mt-1 font-courier-prime font-bold text-xs sm:text-sm text-[#494134] leading-tight max-w-[18ch]">
+              <p className="mt-1 font-courier-prime font-bold text-xs sm:text-sm text-[#494134] leading-tight max-w-[18ch] text-balance">
                 Dinner and the story behind &ldquo;I DO&rdquo;
               </p>
             </div>
           </motion.div>
 
-          {/* 4. 8:00 PM - Dancing is Highly Encouraged */}
+          {/* 4. 8:00 PM - Dancing is Highly Encouraged (Matching Canva Page 2) */}
           <motion.div
             initial={reduceMotion ? false : { opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             onClick={() => setActiveStep(activeStep === 3 ? null : 3)}
-            className="relative w-[290px] sm:w-[340px] md:w-[380px] flex items-center justify-center cursor-pointer group mr-6 sm:mr-10"
+            className="relative w-[275px] sm:w-[325px] md:w-[365px] flex items-center justify-center cursor-pointer group mr-10 sm:mr-14 pt-2 pb-4"
           >
             {/* Shiny Reflective Disco Ball Right (MAHX34qwvkc.png) */}
             <motion.img
@@ -332,7 +207,7 @@ export function GamePlanSection({
               transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
               src={CANVA_ASSETS.gamePlan.discoBallCutout}
               alt="Disco Ball"
-              className="absolute -right-16 sm:-right-22 -top-2 w-36 sm:w-44 h-auto object-contain z-10 sticker-shadow"
+              className="absolute -right-16 sm:-right-22 top-1/2 -translate-y-1/2 w-36 sm:w-44 md:w-48 h-auto object-contain z-10 sticker-shadow"
             />
 
             {/* Torn Pink-Edged Paper Frame (MAHWBB_vkbg.png) */}
@@ -342,28 +217,20 @@ export function GamePlanSection({
               className="relative z-20 w-full h-auto object-contain sticker-shadow transition-transform duration-300 group-hover:scale-[1.02]"
             />
 
-            {/* Vintage Dancing Couple (Page 5) or Blue Dress Guest (Page 4) */}
-            {theme === "dove" && (
-              <img
-                src={CANVA_ASSETS.gamePlan.dancingCoupleCutout}
-                alt="Vintage Dancing Couple"
-                className="absolute -left-14 sm:-left-18 -top-6 sm:-top-8 w-36 sm:w-44 h-auto object-contain z-30 sticker-shadow pointer-events-none"
-              />
-            )}
-            {theme === "beach" && (
-              <img
-                src={CANVA_ASSETS.gamePlan.blueDressGuestCutout}
-                alt="Resort Chic Guest"
-                className="absolute -left-8 sm:-left-12 -top-4 sm:-top-6 w-28 sm:w-34 h-auto object-contain z-30 sticker-shadow pointer-events-none"
-              />
-            )}
+            {/* Blue Dress Guest (MAHX5sh0dZ0.png) */}
+            <motion.img
+              whileHover={reduceMotion ? {} : { scale: 1.04, y: -2 }}
+              src={CANVA_ASSETS.gamePlan.blueDressGuestCutout}
+              alt="Resort Chic Guest in Blue Dress"
+              className="absolute -left-5 sm:-left-7 -top-6 sm:-top-8 w-28 sm:w-34 md:w-38 h-auto object-contain z-30 sticker-shadow pointer-events-none"
+            />
 
             {/* Text Overlay */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center px-10 text-center z-20">
+            <div className="absolute inset-0 flex flex-col items-center justify-center pl-14 sm:pl-16 pr-6 text-center z-20">
               <span className="font-courier-prime font-bold text-xl sm:text-2xl text-[#494134] tracking-tight">
                 8:00 PM
               </span>
-              <p className="mt-1 font-courier-prime font-bold text-xs sm:text-sm text-[#494134] leading-snug max-w-[14ch]">
+              <p className="mt-1 font-courier-prime font-bold text-xs sm:text-sm text-[#494134] leading-snug max-w-[12ch] text-balance">
                 {timelineDetails[3].title}
               </p>
             </div>
@@ -371,64 +238,23 @@ export function GamePlanSection({
         </div>
 
         {/* Interactive Milestone Detail Pill when a guest taps a timeline card */}
-        <div className="mt-5 min-h-[42px] flex items-center justify-center px-2">
-          {activeStep !== null ? (
+        {activeStep !== null && (
+          <div className="mt-6 flex items-center justify-center px-2">
             <motion.div
               key={activeStep}
               initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-white/90 backdrop-blur-md text-[#2b241d] px-4 py-2 rounded-2xl shadow-md border border-white/60 text-center max-w-md"
+              className="bg-white/90 backdrop-blur-md text-[#2b241d] px-4 py-2 rounded-2xl shadow-md border border-white/60 text-center max-w-md text-pretty"
             >
               <span className="font-courier-prime font-bold text-xs text-[#c74f16] mr-2">
                 {timelineDetails[activeStep].time}
               </span>
-              <span className="font-aileron text-xs sm:text-sm">
+              <span className="font-aileron text-xs sm:text-sm text-pretty">
                 {timelineDetails[activeStep].note}
               </span>
             </motion.div>
-          ) : (
-            <span className="font-aileron text-xs text-white/90 bg-slate-950/25 backdrop-blur-xs px-3.5 py-1 rounded-full">
-              Tap any time card above for schedule details
-            </span>
-          )}
-        </div>
-
-        {/* Bottom Yellow Strip ("Come for the love, Stay for the party") + Back Arrow */}
-        <div className="mt-6 sm:mt-8 w-full flex items-center justify-between gap-3 px-2">
-          <div className="flex-1 bg-[#ecc31b] text-[#1a1815] px-4 py-2.5 shadow-md border border-amber-900/15 text-center">
-            <p className="font-courier-prime font-bold text-xs sm:text-sm md:text-base tracking-tight">
-              Come for the love, Stay for the party
-            </p>
           </div>
-
-          <button
-            type="button"
-            onClick={onBack}
-            aria-label="Back to Save the Date"
-            className="flex flex-col items-center shrink-0 group cursor-pointer focus:outline-none"
-          >
-            <img
-              src={CANVA_ASSETS.page2.backArrowSvg}
-              alt="Back"
-              className="w-10 sm:w-11 h-auto sticker-shadow transition-transform group-hover:-translate-x-1"
-            />
-            <span className="font-aileron text-xs sm:text-sm font-bold text-[#494134] bg-white/75 px-2 rounded-full -mt-0.5">
-              Back
-            </span>
-          </button>
-        </div>
-
-        {/* Continue to Travel & Stay Button */}
-        <div className="mt-5">
-          <button
-            type="button"
-            onClick={onNextToTravel}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#194a69] hover:bg-[#123850] text-white font-aileron font-bold text-xs sm:text-sm shadow-lg transition-all cursor-pointer active:scale-95"
-          >
-            <MapPinLineIcon weight="bold" className="w-4 h-4" />
-            <span>How to Get to Villa Elisa & Where to Stay</span>
-          </button>
-        </div>
+        )}
       </div>
     </section>
   );

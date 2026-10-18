@@ -1,25 +1,18 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import {
   CalendarPlusIcon,
   CameraIcon,
-  QrCodeIcon,
-  SparkleIcon,
   XIcon,
   ArrowLeftIcon,
   ArrowRightIcon,
   DownloadSimpleIcon,
   ArrowSquareOutIcon,
+  PinterestLogoIcon,
 } from "@phosphor-icons/react";
 import { CANVA_ASSETS, EXTERNAL_LINKS } from "@/lib/assets";
-
-interface SaveTheDateSectionProps {
-  onBackToCover: () => void;
-  onOpenRsvp: () => void;
-  onGoToGamePlan: () => void;
-}
 
 interface CalendarMemoryPhoto {
   id: string;
@@ -77,16 +70,17 @@ const SWATCH_COLORS = [
   { name: "Pacific Sky", hex: "#00BFFE", note: "Bright ocean cyan" },
 ];
 
+export interface SaveTheDateSectionProps {
+  onOpenRsvp?: () => void;
+}
+
 export function SaveTheDateSection({
-  onBackToCover,
   onOpenRsvp,
-  onGoToGamePlan,
-}: SaveTheDateSectionProps) {
-  const reduceMotion = useReducedMotion();
+}: SaveTheDateSectionProps = {}) {
+  const reduceMotion = false;
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState<number | null>(
     null
   );
-  const [showQrModal, setShowQrModal] = useState(false);
   const [showCalendarMenu, setShowCalendarMenu] = useState(false);
   const [activeSwatch, setActiveSwatch] = useState<number | null>(null);
 
@@ -192,46 +186,22 @@ export function SaveTheDateSection({
 
       {/* Main Content Container */}
       <div className="relative z-20 w-full max-w-[440px] md:max-w-4xl mx-auto flex flex-col items-center">
-        {/* Top Header Bar: White Kevin & Nica Logo + Back Arrow */}
+        {/* Top Header Bar: White Kevin & Nica Logo */}
         <div className="w-full flex items-start justify-between mb-3 sm:mb-6 px-1">
+          <img
+            src={CANVA_ASSETS.page2.kevinAndNicaWhiteLogo}
+            alt="Kevin and Nica"
+            className="w-18 sm:w-22 md:w-24 h-auto sticker-shadow"
+          />
+
           <button
             type="button"
-            onClick={onBackToCover}
-            className="focus:outline-none cursor-pointer group"
+            onClick={() => setSelectedPhotoIndex(0)}
+            className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-[#fffaf0]/90 hover:bg-white text-[#494134] px-3.5 py-1.5 text-xs font-aileron font-bold shadow-sm transition-all cursor-pointer"
           >
-            <img
-              src={CANVA_ASSETS.page2.kevinAndNicaWhiteLogo}
-              alt="Kevin and Nica"
-              className="w-18 sm:w-22 md:w-24 h-auto sticker-shadow transition-transform group-hover:scale-105"
-            />
+            <CameraIcon weight="bold" className="w-4 h-4 text-[#c74f16]" />
+            <span>View 5 Calendar Photos</span>
           </button>
-
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => setSelectedPhotoIndex(0)}
-              className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-[#fffaf0]/90 hover:bg-white text-[#494134] px-3.5 py-1.5 text-xs font-aileron font-bold shadow-sm transition-all cursor-pointer"
-            >
-              <CameraIcon weight="bold" className="w-4 h-4 text-[#c74f16]" />
-              <span>View 5 Calendar Photos</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={onBackToCover}
-              aria-label="Back to Cover"
-              className="flex flex-col items-center group cursor-pointer focus:outline-none"
-            >
-              <img
-                src={CANVA_ASSETS.page2.backArrowSvg}
-                alt="Back"
-                className="w-10 sm:w-11 h-auto sticker-shadow transition-transform group-hover:-translate-x-1"
-              />
-              <span className="font-aileron text-xs sm:text-sm font-medium text-[#494134] bg-white/60 backdrop-blur-xs px-2 rounded-full -mt-0.5">
-                Back
-              </span>
-            </button>
-          </div>
         </div>
 
         {/* Tilted January 2027 Calendar Card (Matching Canva Page 2 -5.8deg tilt) */}
@@ -240,7 +210,7 @@ export function SaveTheDateSection({
           whileInView={{ opacity: 1, y: 0, rotate: -4.5 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="relative w-[94%] sm:w-[92%] md:w-[540px] rounded-sm p-3.5 sm:p-5 md:p-6 paper-card-shadow z-20"
+          className="relative w-[94%] sm:w-[92%] md:w-[540px] rounded-sm p-3.5 sm:p-5 md:p-6 paper-card-shadow z-30"
           style={{
             backgroundImage: `url(${CANVA_ASSETS.page2.kraftPaperCalendarBg})`,
             backgroundSize: "cover",
@@ -291,21 +261,21 @@ export function SaveTheDateSection({
             </div>
 
             {/* Week 1: Blank Sun-Thu (with Villa Elisa on Tue & Palm Tree on Thu), Fri 1, Sat 2 */}
-            <div className="grid grid-cols-7 border-b border-[#3c362b]/50 h-11 sm:h-14 md:h-16 text-[10px] sm:text-xs font-aileron font-bold text-[#1d1a15]">
+            <div className="grid grid-cols-7 grid-rows-1 border-b border-[#3c362b]/50 h-11 sm:h-14 md:h-16 text-[10px] sm:text-xs font-aileron font-bold text-[#1d1a15]">
               <div className="border-r border-[#3c362b]/50 p-1" />
               <div className="border-r border-[#3c362b]/50 p-1" />
               {/* Tue: Villa Elisa Photo Stamp */}
-              <div className="relative border-r border-[#3c362b]/50 p-0.5 overflow-visible">
+              <div className="relative border-r border-[#3c362b]/50 overflow-hidden">
                 <button
                   type="button"
                   onClick={() => setSelectedPhotoIndex(0)}
                   title="Click to view Villa Elisa Botolan"
-                  className="w-full h-full overflow-hidden rounded-[2px] shadow-xs group cursor-pointer"
+                  className="absolute inset-0 w-full h-full overflow-hidden group cursor-pointer"
                 >
                   <img
                     src={CANVA_ASSETS.page2.villaElisaThumb}
                     alt="Villa Elisa Botolan"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                   />
                 </button>
               </div>
@@ -315,7 +285,7 @@ export function SaveTheDateSection({
                 <img
                   src={CANVA_ASSETS.page2.palmTreeSticker}
                   alt="Palm Tree"
-                  className="absolute -top-1 left-1/2 -translate-x-1/2 w-12 sm:w-15 md:w-16 max-w-none h-auto z-20 pointer-events-none sticker-shadow"
+                  className="absolute top-1 left-1/2 -translate-x-1/2 w-11 sm:w-14 md:w-15 max-w-none h-auto z-20 pointer-events-none sticker-shadow"
                 />
               </div>
               <div className="border-r border-[#3c362b]/50 p-1">1</div>
@@ -323,20 +293,23 @@ export function SaveTheDateSection({
             </div>
 
             {/* Week 2: Jan 3 to Jan 9 (Kevin B&W on Mon 4, WE SAY I DO on Sat 9!) */}
-            <div className="grid grid-cols-7 border-b border-[#3c362b]/50 h-11 sm:h-14 md:h-16 text-[10px] sm:text-xs font-aileron font-bold text-[#1d1a15]">
+            <div className="grid grid-cols-7 grid-rows-1 border-b border-[#3c362b]/50 h-11 sm:h-14 md:h-16 text-[10px] sm:text-xs font-aileron font-bold text-[#1d1a15]">
               <div className="border-r border-[#3c362b]/50 p-1">3</div>
               {/* Mon 4: Kevin B&W Portrait */}
-              <div className="relative border-r border-[#3c362b]/50 p-0.5">
+              <div className="relative border-r border-[#3c362b]/50 overflow-hidden">
                 <button
                   type="button"
                   onClick={() => setSelectedPhotoIndex(1)}
                   title="Click to view Kevin's portrait"
-                  className="w-full h-full overflow-hidden rounded-[2px] shadow-xs group cursor-pointer"
+                  className="absolute inset-0 w-full h-full overflow-hidden group cursor-pointer"
                 >
+                  <span className="absolute top-0.5 left-1 z-10 text-[9px] sm:text-[10px] text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)]">
+                    4
+                  </span>
                   <img
                     src={CANVA_ASSETS.page2.kevinBwPortrait}
                     alt="Kevin"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                   />
                 </button>
               </div>
@@ -345,25 +318,25 @@ export function SaveTheDateSection({
               <div className="border-r border-[#3c362b]/50 p-1">7</div>
               <div className="border-r border-[#3c362b]/50 p-1">8</div>
               {/* Sat 9: WE SAY "I DO"! + Halftone Hand Holding Red Heart */}
-              <div className="relative bg-[#8ccae7] p-1 flex flex-col items-center justify-center overflow-visible">
+              <div className="relative bg-[#8ccae7] overflow-visible">
                 <button
                   type="button"
                   onClick={() => setShowCalendarMenu((prev) => !prev)}
                   title="Click to Save January 9, 2027 to your Calendar!"
-                  className="w-full h-full flex flex-col items-center justify-center cursor-pointer group focus:outline-none"
+                  className="absolute inset-0 w-full h-full p-0.5 flex flex-col items-center justify-center overflow-hidden cursor-pointer group focus:outline-none"
                 >
-                  <span className="self-start text-[9px] sm:text-[10px] leading-none font-bold text-[#183547]">
+                  <span className="self-start text-[8px] sm:text-[10px] leading-none font-bold text-[#183547]">
                     9
                   </span>
                   <img
                     src={CANVA_ASSETS.page2.weSayTextSticker}
                     alt="WE SAY"
-                    className="w-[88%] h-auto object-contain mt-0.5 group-hover:scale-105 transition-transform"
+                    className="w-[84%] max-h-[36%] object-contain mt-0.5 group-hover:scale-105 transition-transform"
                   />
                   <img
                     src={CANVA_ASSETS.page2.iDoTextSticker}
                     alt="I DO!"
-                    className="w-[76%] h-auto object-contain mt-0.5 group-hover:scale-105 transition-transform"
+                    className="w-[74%] max-h-[34%] object-contain mt-0.5 group-hover:scale-105 transition-transform"
                   />
                 </button>
 
@@ -371,13 +344,13 @@ export function SaveTheDateSection({
                 <img
                   src={CANVA_ASSETS.page2.halftoneHeartHand}
                   alt="Hand holding red heart on January 9"
-                  className="absolute -right-12 sm:-right-16 md:-right-20 -top-6 sm:-top-8 w-20 sm:w-26 md:w-28 max-w-none h-auto z-30 pointer-events-none sticker-shadow"
+                  className="absolute left-[20%] sm:left-[22%] -top-7 sm:-top-9 md:-top-10 w-28 sm:w-36 md:w-40 max-w-none h-auto z-30 pointer-events-none sticker-shadow"
                 />
               </div>
             </div>
 
             {/* Week 3: Jan 10 to Jan 16 (Pearl inside seashell on Wed 13) */}
-            <div className="grid grid-cols-7 border-b border-[#3c362b]/50 h-11 sm:h-14 md:h-16 text-[10px] sm:text-xs font-aileron font-bold text-[#1d1a15]">
+            <div className="grid grid-cols-7 grid-rows-1 border-b border-[#3c362b]/50 h-11 sm:h-14 md:h-16 text-[10px] sm:text-xs font-aileron font-bold text-[#1d1a15]">
               <div className="border-r border-[#3c362b]/50 p-1">10</div>
               <div className="border-r border-[#3c362b]/50 p-1">11</div>
               <div className="border-r border-[#3c362b]/50 p-1">12</div>
@@ -387,7 +360,7 @@ export function SaveTheDateSection({
                 <img
                   src={CANVA_ASSETS.page2.pearlSeashellSticker}
                   alt="Pearl Seashell"
-                  className="absolute top-2 left-1/2 -translate-x-1/2 w-9 sm:w-11 md:w-12 max-w-none h-auto z-20 pointer-events-none sticker-shadow"
+                  className="absolute top-2.5 left-1/2 -translate-x-1/2 w-8 sm:w-10 md:w-11 max-w-none h-auto z-20 pointer-events-none sticker-shadow"
                 />
               </div>
               <div className="border-r border-[#3c362b]/50 p-1">14</div>
@@ -396,37 +369,43 @@ export function SaveTheDateSection({
             </div>
 
             {/* Week 4: Jan 17 to Jan 23 (Couple Blue Stamp on Mon 18, Couple + Cats Red Stamp on Thu 21, Pink Lily on Sat 23) */}
-            <div className="grid grid-cols-7 border-b border-[#3c362b]/50 h-11 sm:h-14 md:h-16 text-[10px] sm:text-xs font-aileron font-bold text-[#1d1a15]">
+            <div className="grid grid-cols-7 grid-rows-1 border-b border-[#3c362b]/50 h-11 sm:h-14 md:h-16 text-[10px] sm:text-xs font-aileron font-bold text-[#1d1a15]">
               <div className="border-r border-[#3c362b]/50 p-1">17</div>
               {/* Mon 18: Couple Blue Stamp */}
-              <div className="relative border-r border-[#3c362b]/50 p-0.5 overflow-visible">
+              <div className="relative border-r border-[#3c362b]/50 overflow-hidden">
                 <button
                   type="button"
                   onClick={() => setSelectedPhotoIndex(2)}
                   title="Click to enlarge Kevin & Nica stamp"
-                  className="w-full h-full overflow-hidden rounded-[2px] shadow-xs group cursor-pointer"
+                  className="absolute inset-0 w-full h-full overflow-hidden group cursor-pointer"
                 >
+                  <span className="absolute top-0.5 left-1 z-10 text-[9px] sm:text-[10px] text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)]">
+                    18
+                  </span>
                   <img
                     src={CANVA_ASSETS.page2.coupleBlueStamp}
                     alt="Kevin and Nica Stamp"
-                    className="w-full h-full object-cover scale-110 group-hover:scale-125 transition-transform"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                   />
                 </button>
               </div>
               <div className="border-r border-[#3c362b]/50 p-1">19</div>
               <div className="border-r border-[#3c362b]/50 p-1">20</div>
               {/* Thu 21: Couple with Cats Red Stamp */}
-              <div className="relative border-r border-[#3c362b]/50 p-0.5 overflow-visible">
+              <div className="relative border-r border-[#3c362b]/50 overflow-hidden">
                 <button
                   type="button"
                   onClick={() => setSelectedPhotoIndex(3)}
                   title="Click to enlarge Kevin, Nica & Cats stamp"
-                  className="w-full h-full overflow-hidden rounded-[2px] shadow-xs group cursor-pointer"
+                  className="absolute inset-0 w-full h-full overflow-hidden group cursor-pointer"
                 >
+                  <span className="absolute top-0.5 left-1 z-10 text-[9px] sm:text-[10px] text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)]">
+                    21
+                  </span>
                   <img
                     src={CANVA_ASSETS.page2.coupleWithCatsRedStamp}
                     alt="Kevin and Nica with Cats Stamp"
-                    className="w-full h-full object-cover scale-110 group-hover:scale-125 transition-transform"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                   />
                 </button>
               </div>
@@ -437,13 +416,13 @@ export function SaveTheDateSection({
                 <img
                   src={CANVA_ASSETS.page2.pinkLilySticker}
                   alt="Pink Tropical Lily"
-                  className="absolute top-3 -right-3 sm:-right-4 w-12 sm:w-14 md:w-16 max-w-none h-auto z-20 pointer-events-none sticker-shadow rotate-8"
+                  className="absolute top-2.5 -right-2.5 sm:-right-3.5 w-11 sm:w-13 md:w-14 max-w-none h-auto z-20 pointer-events-none sticker-shadow rotate-8"
                 />
               </div>
             </div>
 
             {/* Week 5: Jan 24 to Jan 30 */}
-            <div className="grid grid-cols-7 border-b border-[#3c362b]/50 h-11 sm:h-14 md:h-16 text-[10px] sm:text-xs font-aileron font-bold text-[#1d1a15]">
+            <div className="grid grid-cols-7 grid-rows-1 border-b border-[#3c362b]/50 h-11 sm:h-14 md:h-16 text-[10px] sm:text-xs font-aileron font-bold text-[#1d1a15]">
               <div className="border-r border-[#3c362b]/50 p-1">24</div>
               <div className="border-r border-[#3c362b]/50 p-1">25</div>
               <div className="border-r border-[#3c362b]/50 p-1">26</div>
@@ -454,23 +433,23 @@ export function SaveTheDateSection({
             </div>
 
             {/* Week 6: Jan 31 + Nica B&W Portrait on Thu cell */}
-            <div className="grid grid-cols-7 h-11 sm:h-14 md:h-16 text-[10px] sm:text-xs font-aileron font-bold text-[#1d1a15]">
+            <div className="grid grid-cols-7 grid-rows-1 h-11 sm:h-14 md:h-16 text-[10px] sm:text-xs font-aileron font-bold text-[#1d1a15]">
               <div className="border-r border-[#3c362b]/50 p-1">31</div>
               <div className="border-r border-[#3c362b]/50 p-1" />
               <div className="border-r border-[#3c362b]/50 p-1" />
               <div className="border-r border-[#3c362b]/50 p-1" />
               {/* Nica B&W Portrait */}
-              <div className="relative border-r border-[#3c362b]/50 p-0.5">
+              <div className="relative border-r border-[#3c362b]/50 overflow-hidden">
                 <button
                   type="button"
                   onClick={() => setSelectedPhotoIndex(4)}
                   title="Click to view Nica's portrait"
-                  className="w-full h-full overflow-hidden rounded-[2px] shadow-xs group cursor-pointer"
+                  className="absolute inset-0 w-full h-full overflow-hidden group cursor-pointer"
                 >
                   <img
                     src={CANVA_ASSETS.page2.nicaBwPortrait}
                     alt="Nica"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                   />
                 </button>
               </div>
@@ -536,14 +515,14 @@ export function SaveTheDateSection({
         </motion.div>
 
         {/* Lower Collage: Couple Line-Art Sketch + Cat holding RSVP Sign + Chartreuse ATTIRE Card */}
-        <div className="relative w-full mt-2 sm:mt-4 flex flex-col md:flex-row items-center md:items-end justify-center">
-          {/* Couple Line-Art Cutout (Left, overlapping calendar bottom-left just like Canva Page 2) */}
+        <div className="relative z-20 w-full mt-4 sm:mt-6 flex flex-col md:flex-row items-center md:items-end justify-center">
+          {/* Couple Line-Art Cutout (Left, positioned cleanly below the calendar controls) */}
           <motion.div
             initial={reduceMotion ? false : { opacity: 0, x: -24 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.7 }}
-            className="relative z-30 -mt-14 sm:-mt-20 md:mt-0 md:-mr-10 self-start sm:self-auto pointer-events-none"
+            className="relative z-30 mt-1 sm:mt-2 md:mt-0 md:-mr-10 self-start sm:self-auto pointer-events-none"
           >
             <img
               src={CANVA_ASSETS.page2.coupleIllustrationCutout}
@@ -552,108 +531,115 @@ export function SaveTheDateSection({
             />
           </motion.div>
 
-          {/* Right Column: Cat with Fish RSVP Sign + Chartreuse ATTIRE Board */}
+          {/* Right Column: Cat Behind ATTIRE Box (z-10) + Chartreuse ATTIRE Box (z-20) + RSVP Sign In Front (z-30) */}
           <div className="relative z-20 w-full max-w-[340px] sm:max-w-[380px] md:max-w-[420px] -mt-28 sm:-mt-32 md:mt-0 ml-auto flex flex-col items-end">
-            {/* Cute Cat Holding Blue Fish & RSVP Sign (MAHXWu6n3X8.png) */}
-            <motion.div
-              whileHover={reduceMotion ? {} : { scale: 1.04, rotate: 2 }}
-              whileTap={{ scale: 0.96 }}
-              className="relative z-30 -mb-10 sm:-mb-12 mr-1 sm:mr-2 flex flex-col items-center group"
-            >
-              <a
-                href={EXTERNAL_LINKS.rsvpUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Open Official RSVP Form"
-                title="Open Official RSVP Form"
-                className="relative block w-36 sm:w-44 md:w-48 focus:outline-none cursor-pointer"
+            {/* Shared positioning wrapper (no z-index/transform so z-10 and z-30 stack across the z-20 ATTIRE card) */}
+            <div className="relative -mb-13 sm:-mb-15 md:-mb-16 -mr-1.5 sm:-mr-2.5 w-40 sm:w-44 md:w-48">
+              {/* Layer 1 (z-10): Cat graphic BEHIND the Chartreuse ATTIRE box */}
+              <motion.div
+                animate={
+                  reduceMotion
+                    ? {}
+                    : {
+                        y: [0, -3.5, 0],
+                        rotate: [0, 1.2, 0],
+                      }
+                }
+                transition={{
+                  duration: 3.2,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                className="relative z-10 w-full pointer-events-none select-none"
               >
                 <img
                   src={CANVA_ASSETS.page2.catWithFishCutout}
-                  alt="Cat holding fish and RSVP sign"
+                  alt="Cat holding fish"
                   className="w-full h-auto object-contain sticker-shadow-lg"
+                />
+              </motion.div>
+
+              {/* Layer 3 (z-30): RSVP Sign Cutout + Tap to RSVP Badge IN FRONT OF the Chartreuse ATTIRE box */}
+              <motion.button
+                type="button"
+                onClick={onOpenRsvp}
+                aria-label="Open Official RSVP Form"
+                title="Open Official RSVP Form"
+                animate={
+                  reduceMotion
+                    ? {}
+                    : {
+                        y: [0, -3.5, 0],
+                        rotate: [0, 1.2, 0],
+                      }
+                }
+                transition={{
+                  duration: 3.2,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                whileHover={reduceMotion ? {} : { scale: 1.04 }}
+                whileTap={{ scale: 0.96 }}
+                className="absolute inset-0 z-30 block focus:outline-none cursor-pointer group"
+              >
+                <img
+                  src={CANVA_ASSETS.page2.rsvpSignCutout}
+                  alt="RSVP Sign"
+                  style={{
+                    left: "0.27%",
+                    top: "-0.14%",
+                    width: "100.55%",
+                    height: "96.6%",
+                  }}
+                  className="absolute max-w-none object-fill drop-shadow-[0_6px_12px_rgba(0,0,0,0.2)]"
                 />
                 <span className="absolute -top-2 right-2 bg-[#1658a0] text-white font-aileron font-bold text-[10px] sm:text-xs px-2.5 py-0.5 rounded-full shadow-md group-hover:bg-[#e6681b] transition-colors inline-flex items-center gap-1">
                   <span>Tap to RSVP!</span>
-                  <ArrowSquareOutIcon weight="bold" className="w-3 h-3" />
                 </span>
-              </a>
-            </motion.div>
+              </motion.button>
+            </div>
 
-            {/* Chartreuse Textured ATTIRE Card (MAHXWc9E9hM.jpg) */}
+            {/* Layer 2 (z-20): Chartreuse Textured ATTIRE Card (MAHXWc9E9hM.jpg) */}
             <motion.div
               initial={reduceMotion ? false : { opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.7, delay: 0.1 }}
-              className="relative z-20 w-full rounded-sm p-4 sm:p-6 pt-8 sm:pt-10 paper-card-shadow text-[#3d392e]"
+              className="relative z-20 w-full rounded-sm p-4 sm:p-6 pt-5 sm:pt-6 paper-card-shadow text-[#3d392e]"
               style={{
                 backgroundImage: `url(${CANVA_ASSETS.page2.chartreuseTextureCard})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
               }}
             >
-              <h3 className="font-aileron font-bold text-3xl sm:text-4xl tracking-tight text-[#3d392e] leading-none">
+              <h3 className="font-aileron font-bold text-3xl sm:text-4xl tracking-tight text-[#3d392e] leading-none text-balance pr-28 sm:pr-32">
                 ATTIRE
               </h3>
-              <p className="mt-1 font-aileron font-bold text-sm sm:text-base text-[#3d392e]">
+              <p className="mt-1 font-aileron font-bold text-sm sm:text-base text-[#3d392e] text-balance">
                 Resort Chic/Semi Formal
               </p>
-              <p className="mt-2 font-aileron text-xs sm:text-sm text-[#3d392e] leading-snug max-w-[34ch]">
+              <p className="mt-2 font-aileron text-xs sm:text-sm text-[#3d392e] leading-snug max-w-[34ch] text-pretty">
                 Think lightweight fabrics, vibrant colors, playful prints, and
                 fun patterns!
               </p>
 
-              {/* QR Code + "Scan this for inspo!" */}
-              <div className="mt-3.5 flex items-center gap-3 sm:gap-4">
-                <div className="relative shrink-0">
-                  <button
-                    type="button"
-                    onClick={() => setShowQrModal(true)}
-                    title="Click to enlarge QR code or open dress code inspiration"
-                    className="block w-20 h-20 sm:w-22 sm:h-22 bg-white p-1.5 border border-[#3d392e]/60 shadow-sm hover:scale-105 transition-transform cursor-pointer"
-                  >
-                    <img
-                      src={CANVA_ASSETS.page2.dressCodeQrCode}
-                      alt="QR Code: Dress Code Inspiration"
-                      className="w-full h-full object-contain"
-                    />
-                  </button>
-                </div>
+              {/* Pinterest Button Only (Replaced QR Code) */}
+              <div className="mt-3.5 flex flex-col items-start gap-2">
+                <a
+                  href={EXTERNAL_LINKS.dressCodeInspoQrUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full bg-[#3d392e] hover:bg-[#c74f16] text-[#f5f9d6] px-4 py-2.5 font-aileron font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer active:scale-95"
+                >
+                  <PinterestLogoIcon weight="fill" className="w-4 h-4 text-[#ff6b57]" />
+                  <span>View Dress Code Inspo on Pinterest</span>
+                  <ArrowSquareOutIcon weight="bold" className="w-3.5 h-3.5" />
+                </a>
 
-                <div className="flex flex-col">
-                  <a
-                    href={EXTERNAL_LINKS.dressCodeInspoQrUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-campground text-lg sm:text-xl text-[#3d392e] hover:text-[#c74f16] transition-colors leading-tight"
-                  >
-                    Scan this for inspo!
-                  </a>
-                  <p className="mt-1 font-aileron text-[11px] sm:text-xs text-[#3d392e]/95 leading-snug">
-                    Please avoid dark/neutral tones, heavy fabrics, and Hawaiian
-                    prints.
-                  </p>
-                  <div className="mt-1.5 flex items-center gap-2">
-                    <a
-                      href={EXTERNAL_LINKS.dressCodeInspoQrUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-[11px] font-aileron font-bold text-[#194a69] underline hover:text-[#c74f16]"
-                    >
-                      <span>Open Dress Code Link</span>
-                      <ArrowSquareOutIcon weight="bold" className="w-3 h-3" />
-                    </a>
-                    <button
-                      type="button"
-                      onClick={() => setShowQrModal(true)}
-                      className="inline-flex items-center gap-1 text-[11px] font-aileron font-bold text-[#3d392e]/80 hover:text-[#3d392e] cursor-pointer"
-                    >
-                      <QrCodeIcon weight="bold" className="w-3.5 h-3.5" />
-                      <span>Zoom QR</span>
-                    </button>
-                  </div>
-                </div>
+                <p className="font-aileron text-[11px] sm:text-xs text-[#3d392e]/95 leading-snug text-pretty">
+                  Please avoid dark/neutral tones, heavy fabrics, and Hawaiian
+                  prints.
+                </p>
               </div>
 
               {/* 6 Stamp-Edged Fabric Color Swatches (MAHXWemharQ.png) */}
@@ -684,7 +670,7 @@ export function SaveTheDateSection({
                 {/* Swatch Caption Bar */}
                 <div className="mt-1.5 min-h-[22px] flex items-center justify-between text-[11px] font-aileron">
                   {activeSwatch !== null ? (
-                    <div className="flex items-center gap-2 bg-white/75 px-2.5 py-0.5 rounded-full shadow-2xs">
+                    <div className="flex items-center gap-2 bg-white/75 px-2.5 py-0.5 rounded-full shadow-2xs text-pretty">
                       <span
                         className="w-3 h-3 rounded-full border border-black/20 shrink-0"
                         style={{
@@ -694,12 +680,12 @@ export function SaveTheDateSection({
                       <span className="font-bold text-[#2b241d]">
                         {SWATCH_COLORS[activeSwatch].name}:
                       </span>
-                      <span className="text-[#494134]">
+                      <span className="text-[#494134] text-pretty">
                         {SWATCH_COLORS[activeSwatch].note}
                       </span>
                     </div>
                   ) : (
-                    <span className="text-[#3d392e]/75 font-medium">
+                    <span className="text-[#3d392e]/75 font-medium text-pretty">
                       Tap a fabric swatch above to preview palette notes
                     </span>
                   )}
@@ -709,7 +695,7 @@ export function SaveTheDateSection({
           </div>
         </div>
 
-        {/* Bottom Live Countdown Banner (Matching Canva Page 2 Yellow Banner + TickCounter) */}
+        {/* Bottom Live Countdown Banner (Matching Canva Page 4 Yellow Banner + TickCounter) */}
         <motion.div
           initial={reduceMotion ? false : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -775,27 +761,6 @@ export function SaveTheDateSection({
             </div>
           </div>
         </motion.div>
-
-        {/* Next Section Cue */}
-        <div className="relative z-30 mt-4 flex items-center gap-3">
-          <button
-            type="button"
-            onClick={onGoToGamePlan}
-            className="px-4 py-2 rounded-full bg-white/90 hover:bg-white text-[#194a69] font-aileron font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer active:scale-95"
-          >
-            See The Game Plan (4:00 PM - 8:00 PM)
-          </button>
-          <a
-            href={EXTERNAL_LINKS.rsvpUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-4 py-2 rounded-full bg-[#e6681b] hover:bg-[#cf5912] text-white font-aileron font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer active:scale-95 inline-flex items-center gap-1.5"
-          >
-            <SparkleIcon weight="fill" className="w-3.5 h-3.5" />
-            <span>RSVP Online</span>
-            <ArrowSquareOutIcon weight="bold" className="w-3.5 h-3.5" />
-          </a>
-        </div>
       </div>
 
       {/* Calendar Photo Stamp Lightbox Modal */}
@@ -817,10 +782,10 @@ export function SaveTheDateSection({
             >
               <div className="flex items-center justify-between pb-3">
                 <div>
-                  <span className="font-courier-prime text-xs text-[#c74f16] font-bold uppercase">
+                  <span className="font-courier-prime text-xs text-[#c74f16] font-bold uppercase text-balance">
                     {CALENDAR_PHOTOS[selectedPhotoIndex].dateLabel}
                   </span>
-                  <h3 className="font-aileron font-bold text-lg sm:text-xl text-[#2b241d]">
+                  <h3 className="font-aileron font-bold text-lg sm:text-xl text-[#2b241d] text-balance">
                     {CALENDAR_PHOTOS[selectedPhotoIndex].title}
                   </h3>
                 </div>
@@ -842,7 +807,7 @@ export function SaveTheDateSection({
                 />
               </div>
 
-              <p className="mt-3 font-aileron text-xs sm:text-sm text-[#494134] leading-relaxed">
+              <p className="mt-3 font-aileron text-xs sm:text-sm text-[#494134] leading-relaxed text-pretty">
                 {CALENDAR_PHOTOS[selectedPhotoIndex].caption}
               </p>
 
@@ -902,61 +867,6 @@ export function SaveTheDateSection({
                   <ArrowRightIcon weight="bold" className="w-3.5 h-3.5" />
                 </button>
               </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* QR Code Zoom Modal */}
-      <AnimatePresence>
-        {showQrModal && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setShowQrModal(false)}
-            className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4"
-          >
-            <motion.div
-              initial={reduceMotion ? false : { scale: 0.92, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={reduceMotion ? { opacity: 0 } : { scale: 0.92, opacity: 0 }}
-              onClick={(e) => e.stopPropagation()}
-              className="relative max-w-sm w-full bg-[#fdfaf3] rounded-2xl p-5 shadow-2xl border border-amber-900/20 text-center"
-            >
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="font-campground text-2xl text-[#3d392e]">
-                  Scan this for inspo!
-                </h3>
-                <button
-                  type="button"
-                  onClick={() => setShowQrModal(false)}
-                  aria-label="Close QR modal"
-                  className="p-1.5 rounded-full bg-amber-950/10 hover:bg-amber-950/20 text-[#2b241d] cursor-pointer"
-                >
-                  <XIcon weight="bold" className="w-5 h-5" />
-                </button>
-              </div>
-              <div className="bg-white p-4 rounded-xl border border-amber-900/15 shadow-inner mx-auto max-w-[240px]">
-                <img
-                  src={CANVA_ASSETS.page2.dressCodeQrCode}
-                  alt="Dress Code Inspiration QR Code"
-                  className="w-full h-auto object-contain"
-                />
-              </div>
-              <p className="mt-3 font-aileron text-xs sm:text-sm text-[#494134]">
-                Resort Chic / Semi Formal: Lightweight fabrics, vibrant colors,
-                playful prints, and fun patterns.
-              </p>
-              <a
-                href={EXTERNAL_LINKS.dressCodeInspoQrUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-4 w-full py-2.5 px-4 rounded-full bg-[#194a69] hover:bg-[#123850] text-white font-aileron font-bold text-xs sm:text-sm inline-flex items-center justify-center gap-1.5 shadow-md"
-              >
-                <span>Open Inspiration Board Directly</span>
-                <ArrowSquareOutIcon weight="bold" className="w-4 h-4" />
-              </a>
             </motion.div>
           </motion.div>
         )}

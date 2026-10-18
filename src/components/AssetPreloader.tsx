@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+import { motion, AnimatePresence, MotionConfig } from "motion/react";
 import { EnvelopeSimpleOpen, Sparkle } from "@phosphor-icons/react";
 import { CANVA_ASSETS, getAllPreloadAssetUrls } from "@/lib/assets";
 
@@ -16,10 +16,10 @@ interface AssetPreloaderProps {
 }
 
 export default function AssetPreloader({ children }: AssetPreloaderProps) {
-  const prefersReducedMotion = useReducedMotion();
+  const prefersReducedMotion = false;
   const [isReady, setIsReady] = useState(false);
   const [loadedCount, setLoadedCount] = useState(0);
-  const [totalCount, setTotalCount] = useState(1);
+  const totalCount = getAllPreloadAssetUrls().length + 1;
   const [statusLabel, setStatusLabel] = useState(
     "Preparing fonts & coastal scrapbook assets..."
   );
@@ -28,7 +28,6 @@ export default function AssetPreloader({ children }: AssetPreloaderProps) {
     let isCancelled = false;
     const urls = getAllPreloadAssetUrls();
     const totalTasks = urls.length + 1; // +1 for custom fonts
-    setTotalCount(totalTasks);
 
     const retainedImages: HTMLImageElement[] = [];
     if (typeof window !== "undefined") {
@@ -141,7 +140,7 @@ export default function AssetPreloader({ children }: AssetPreloaderProps) {
   );
 
   return (
-    <>
+    <MotionConfig reducedMotion="never">
       <AnimatePresence mode="wait">
         {!isReady && (
           <motion.div
@@ -186,15 +185,15 @@ export default function AssetPreloader({ children }: AssetPreloaderProps) {
               </motion.div>
 
               {/* Couple Header */}
-              <p className="font-courier text-xs uppercase tracking-[0.25em] text-[#f2ffc5]/80">
+              <p className="font-courier text-xs uppercase tracking-[0.25em] text-[#f2ffc5]/80 text-balance">
                 Saturday * January 9, 2027 * Zambales
               </p>
 
-              <h1 className="mt-2 font-spartan font-bold text-3xl sm:text-4xl tracking-[0.14em] uppercase text-[#f2ffc5] drop-shadow-md">
+              <h1 className="mt-2 font-spartan font-bold text-3xl sm:text-4xl tracking-[0.14em] uppercase text-[#f2ffc5] drop-shadow-md text-balance">
                 KEVIN + NICA
               </h1>
 
-              <p className="mt-1 font-campground text-2xl text-[#ff9b54] -rotate-2">
+              <p className="mt-1 font-campground text-2xl text-[#ff9b54] -rotate-2 text-balance">
                 Meet us in Botolan
               </p>
 
@@ -210,7 +209,7 @@ export default function AssetPreloader({ children }: AssetPreloaderProps) {
 
               {/* Percentage & Asset Counter */}
               <div className="mt-3 w-full flex items-center justify-between font-courier text-xs text-stone-300">
-                <span className="truncate pr-2">{statusLabel}</span>
+                <span className="truncate pr-2 text-pretty">{statusLabel}</span>
                 <span className="shrink-0 font-bold text-[#f2ffc5] tabular-nums">
                   {progressPercent}% ({loadedCount}/{totalCount})
                 </span>
@@ -242,6 +241,6 @@ export default function AssetPreloader({ children }: AssetPreloaderProps) {
           {children}
         </motion.div>
       )}
-    </>
+    </MotionConfig>
   );
 }
