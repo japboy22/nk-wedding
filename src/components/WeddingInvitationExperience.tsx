@@ -38,6 +38,12 @@ const NAV_SECTIONS: NavSectionItem[] = [
     icon: EnvelopeSimpleOpen,
   },
   {
+    id: "chapter-save-the-date",
+    label: "Date & Attire",
+    mobileLabel: "Attire",
+    icon: CalendarHeart,
+  },
+  {
     id: "chapter-game-plan",
     label: "Game Plan",
     mobileLabel: "Game Plan",
@@ -48,12 +54,6 @@ const NAV_SECTIONS: NavSectionItem[] = [
     label: "Travel & Stay",
     mobileLabel: "Travel",
     icon: MapPinLine,
-  },
-  {
-    id: "chapter-save-the-date",
-    label: "Date & Attire",
-    mobileLabel: "Attire",
-    icon: CalendarHeart,
   },
 ];
 
@@ -178,19 +178,19 @@ function WeddingInvitationContent() {
           <EnvelopeHero onOpenRsvp={() => setIsRsvpModalOpen(true)} />
         </div>
 
-        {/* Page 2: The Game Plan (Beach Resort Timeline) */}
+        {/* Page 2: January 2027 Calendar, Couple Sketch, Blinking Cat RSVP, Attire & Countdown */}
+        <div id="chapter-save-the-date">
+          <SaveTheDateSection onOpenRsvp={() => setIsRsvpModalOpen(true)} />
+        </div>
+
+        {/* Page 3: The Game Plan (Beach Resort Timeline) */}
         <div id="chapter-game-plan">
           <GamePlanSection />
         </div>
 
-        {/* Page 3: How to Get to Villa Elisa & Where to Stay in Zambales */}
+        {/* Page 4: How to Get to Villa Elisa & Where to Stay in Zambales */}
         <div id="chapter-travel-and-stay">
           <TravelAndStaySection />
-        </div>
-
-        {/* Page 4: January 2027 Calendar, Couple Sketch, Blinking Cat RSVP, Attire & Countdown */}
-        <div id="chapter-save-the-date">
-          <SaveTheDateSection onOpenRsvp={() => setIsRsvpModalOpen(true)} />
         </div>
       </main>
 
