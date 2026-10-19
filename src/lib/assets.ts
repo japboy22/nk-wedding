@@ -166,8 +166,11 @@ export const CANVA_ASSETS = {
 
 export const EXTERNAL_LINKS = {
   villaElisaWebsiteUrl: "https://botolan.villaelisaresorts.com/",
+  rsvpSpreadsheetId: "1Ma2xzjttMt1jtwTlspJoJTKtvd68a-zC2iUDr_U9V_Y",
+  rsvpSpreadsheetUrl:
+    "https://docs.google.com/spreadsheets/d/1Ma2xzjttMt1jtwTlspJoJTKtvd68a-zC2iUDr_U9V_Y/edit?gid=0#gid=0",
   rsvpUrl:
-    "https://script.google.com/macros/s/AKfycbz3RGPboUmFa1c7Mdgq_lMh4gwRcRF_4PtCib1wb8x9dLwSwgvZVRP13ktzlhr8K4AkvA/exec",
+    "https://script.google.com/macros/s/AKfycbzeTMZdf2VW5VkHdoLpw5nkFQfcH_b17a9LbOpXqqigFqNz-oStFXmHbCIMMQYazkM_NA/exec",
   dressCodeInspoQrUrl: "https://pin.it/7prGgVO2S",
   sintaAirbnbUrl:
     "https://www.airbnb.com/rooms/1253501963512758076?source_impression_id=p3_1791540880_P3hjU9RDPgfhtbfB",
