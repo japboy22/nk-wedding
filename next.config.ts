@@ -3,8 +3,9 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
-  deploymentId: process.env.NEXT_DEPLOYMENT_ID || "nk-wedding-dev-v2",
-  outputHashSalt: process.env.NEXT_HASH_SALT || "nk-wedding-dev-v2",
+  ...(process.env.NEXT_DEPLOYMENT_ID
+    ? { deploymentId: process.env.NEXT_DEPLOYMENT_ID }
+    : {}),
   allowedDevOrigins: [
     "nk-wedding.japs.dev",
     "wedding.japs.dev",
@@ -13,6 +14,9 @@ const nextConfig: NextConfig = {
     "127.0.0.1:3040",
   ],
   async headers() {
+    if (process.env.NODE_ENV !== "development") {
+      return [];
+    }
     return [
       {
         source: "/_next/static/:path*",
